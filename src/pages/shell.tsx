@@ -50,54 +50,42 @@ const LogoMarkRing = ({ size = 28 }) => (
   </span>
 );
 
-const Wordmark = ({ withDot, size }) => {
-  if (!withDot) {
-    return <span className="logo-word" style={{ fontSize: size }}>BiasSense</span>;
-  }
-  // "BiasSense" — the second "i" sits at index 6 (B-i-a-s-S-e-n-s-e). Actually
-  // the "i" we want is in "Bias". Replace its dot with an orange glow.
+const Wordmark = ({ size }) => {
   return (
     <span className="logo-word" style={{ fontSize: size, position: 'relative' }}>
-      B<span style={{ position: 'relative', display: 'inline-block' }}>
-        ı
+      BiasSens<span style={{ position: 'relative', display: 'inline-block' }}>
+        e
         <span
           style={{
             position: 'absolute',
-            top: '-0.16em',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '0.22em',
-            height: '0.22em',
-            borderRadius: '50%',
-            background: '#FD4B23',
-            boxShadow: '0 0 0.4em rgba(253, 75, 35, 0.6)',
+            top: '-0.1em',
+            left: '85%',
+            transform: 'translateX(0)',
+            fontSize: '0.52em',
+            lineHeight: 1,
+            color: 'var(--text)',
+            fontWeight: 700,
+            letterSpacing: 0,
+            whiteSpace: 'nowrap',
           }}
-        />
-      </span>asSense
+        >→</span>
+      </span>
     </span>
   );
 };
 
 const Logo = ({ size = 15 }) => {
-  const variant = useLogoVariant();
-  const markSize = Math.round(size * 1.7);
   return (
     <span className="logo logo-lock" style={{ fontSize: size }}>
-      {variant === 'square' && <LogoMarkSquare size={markSize} />}
-      {variant === 'ring'   && <LogoMarkRing size={markSize} />}
-      <Wordmark withDot={variant === 'dot'} size={size} />
+      <Wordmark size={size} />
     </span>
   );
 };
 
 const LogoLockup = ({ size = 18 }) => {
-  const variant = useLogoVariant();
-  const markSize = Math.round(size * 1.45);
   return (
-    <span className="logo-lockup" style={{ fontSize: size, gap: Math.round(size * 0.5) }}>
-      {variant === 'square' && <LogoMarkSquare size={markSize} />}
-      {variant === 'ring'   && <LogoMarkRing size={markSize} />}
-      <Wordmark withDot={variant === 'dot'} size={size} />
+    <span className="logo-lockup" style={{ fontSize: size }}>
+      <Wordmark size={size} />
     </span>
   );
 };

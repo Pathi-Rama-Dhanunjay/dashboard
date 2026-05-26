@@ -6,6 +6,7 @@ import { TeamSettings } from './pages/settings-team.tsx';
 import { Dashboard } from './pages/dashboard.tsx';
 import { ModelsList } from './pages/models.tsx';
 import { ModelDetail } from './pages/model-detail.tsx';
+import { PalettePreview } from './pages/palette.tsx';
 import { AppShell, ToastProvider } from './pages/shell.tsx';
 import { Icon } from './components/icons.tsx';
 import { TweaksPanel, TweakSection, TweakRadio, useTweaks } from './components/tweaks-panel.tsx';
@@ -89,6 +90,8 @@ const App = () => {
     view = <ModelDetail modelId={id} onNavigate={onNavigate} />;
   } else if (path === '/settings') {
     view = <TeamSettings onNavigate={onNavigate} />;
+  } else if (path === '/palette') {
+    view = <PalettePreview onNavigate={onNavigate} />;
   } else {
     const matched = (window.NAV_ITEMS || []).find(n => path.startsWith(n.route.replace('#', '')));
     view = <ComingSoon active={matched ? matched.id : ''} title={matched ? matched.label : 'Not found'} onNavigate={onNavigate} />;

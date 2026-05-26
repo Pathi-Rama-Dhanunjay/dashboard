@@ -94,6 +94,7 @@ const App = () => {
     if (id) {
       view = <ModelDetail modelId={id} onNavigate={onNavigate} />;
     } else {
+      onNavigate('/models');
       view = <ModelsList onNavigate={onNavigate} />;
     }
   } else if (path === '/settings') {

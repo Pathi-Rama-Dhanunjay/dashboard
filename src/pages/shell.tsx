@@ -288,9 +288,12 @@ const RunAnalysisModal = ({ open, onClose }) => {
   const [model, setModel] = React.useState('CreditRisk v2.4.1');
   const [running, setRunning] = React.useState(false);
   const timeoutsRef = React.useRef<ReturnType<typeof setTimeout>[]>([]);
+  const isMountedRef = React.useRef(true);
 
   React.useEffect(() => {
+    isMountedRef.current = true;
     return () => {
+      isMountedRef.current = false;
       timeoutsRef.current.forEach((tid) => clearTimeout(tid));
       timeoutsRef.current = [];
     };
@@ -301,6 +304,7 @@ const RunAnalysisModal = ({ open, onClose }) => {
   const run = () => {
     setRunning(true);
     const t1 = setTimeout(() => {
+      if (!isMountedRef.current) return;
       setRunning(false);
       onClose();
       toast({
@@ -310,6 +314,7 @@ const RunAnalysisModal = ({ open, onClose }) => {
         tone: ''
       });
       const t2 = setTimeout(() => {
+        if (!isMountedRef.current) return;
         toast({
           title: 'Analysis complete',
           desc: `${model} · Fairness score 76 (+4)`,
@@ -317,7 +322,7 @@ const RunAnalysisModal = ({ open, onClose }) => {
           tone: ''
         });
       }, 3200);
-      timeoutsRef.current.push(t2);
+      if (isMountedRef.current) timeoutsRef.current.push(t2);
     }, 700);
     timeoutsRef.current.push(t1);
   };

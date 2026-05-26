@@ -1,0 +1,101 @@
+/* ============================================================
+   Tweaks — density + mood overrides
+============================================================ */
+
+/* Density */
+[data-density="cozy"] {
+  --topbar-h: 56px;
+  --radius-lg: 12px;
+  --radius-md: 9px;
+}
+[data-density="cozy"] body { font-size: 13px; }
+[data-density="cozy"] .content { padding: 20px; }
+[data-density="cozy"] .dash-grid { gap: 14px; }
+[data-density="cozy"] .card-header { padding: 14px 16px 10px; }
+[data-density="cozy"] .card-body { padding: 0 16px 14px; }
+[data-density="cozy"] .hero-panel { padding: 20px 24px; gap: 20px; }
+[data-density="cozy"] .hero-title { font-size: 22px; }
+[data-density="cozy"] .page-head h1 { font-size: 22px; }
+[data-density="cozy"] .alert-row { padding: 10px 0; padding-left: 8px; padding-right: 8px; }
+[data-density="cozy"] .stats-row { padding: 10px 0; }
+[data-density="cozy"] .stats-row .val { font-size: 16px; }
+[data-density="cozy"] .model-card { padding: 16px; gap: 12px; }
+[data-density="cozy"] .nav-item { height: 30px; font-size: 12.5px; }
+[data-density="cozy"] .sidebar-nav { padding: 12px 10px; }
+[data-density="cozy"] .gauge { width: 130px; height: 130px; }
+[data-density="cozy"] .gauge-value { font-size: 30px; }
+[data-density="cozy"] .activity { height: 96px; }
+[data-density="cozy"] .donut, [data-density="cozy"] .donut svg { width: 124px !important; height: 124px !important; }
+[data-density="cozy"] .donut-num { font-size: 24px !important; }
+[data-density="cozy"] .topbar { padding: 0 22px; }
+
+[data-density="spacious"] {
+  --topbar-h: 76px;
+  --radius-lg: 18px;
+  --radius-md: 12px;
+}
+[data-density="spacious"] body { font-size: 14.5px; }
+[data-density="spacious"] .content { padding: 44px; }
+[data-density="spacious"] .dash-grid { gap: 28px; }
+[data-density="spacious"] .card-header { padding: 24px 26px 18px; }
+[data-density="spacious"] .card-body { padding: 0 26px 26px; }
+[data-density="spacious"] .hero-panel { padding: 40px 44px; gap: 36px; }
+[data-density="spacious"] .hero-title { font-size: 34px; }
+[data-density="spacious"] .page-head h1 { font-size: 34px; }
+[data-density="spacious"] .alert-row { padding: 16px 0; padding-left: 8px; padding-right: 8px; }
+[data-density="spacious"] .stats-row { padding: 18px 0; }
+[data-density="spacious"] .model-card { padding: 26px; gap: 18px; }
+[data-density="spacious"] .nav-item { height: 38px; }
+[data-density="spacious"] .topbar { padding: 0 40px; }
+
+/* Mood: technical (mono uppercase tags replace italic serif accents) */
+[data-mood="technical"] .ital,
+[data-mood="technical"] .serif {
+  font-family: 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cream);
+  font-size: 0.62em;
+  display: inline-block;
+  padding: 0.22em 0.55em;
+  border: 1px solid var(--cream-edge);
+  border-radius: 5px;
+  background: var(--cream-soft);
+  vertical-align: 0.18em;
+  margin: 0 0.15em;
+}
+
+/* For the very small inline serif accents in signin sub copy etc., keep them inline */
+[data-mood="technical"] .signin-quiet-title,
+[data-mood="technical"] .editorial-headline,
+[data-mood="technical"] .hero-title,
+[data-mood="technical"] .page-head h1,
+[data-mood="technical"] .empty-title,
+[data-mood="technical"] .detail-title {
+  text-transform: none;
+}
+
+/* In technical mood the signin wordmark goes mono caps too */
+[data-mood="technical"] .signin-lockup-word {
+  font-family: 'Geist Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 14px;
+  font-weight: 500;
+}
+[data-mood="technical"] .signin-lockup-mark {
+  font-family: 'Geist Mono', monospace;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  border-radius: 4px;
+}
+[data-mood="technical"] .logo {
+  font-family: 'Geist Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 13px !important;
+  font-weight: 600;
+}

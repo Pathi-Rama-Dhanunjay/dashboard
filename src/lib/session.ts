@@ -1,6 +1,6 @@
 const SESSION_TTL_MS = 8 * 60 * 60 * 1000; // 8 hours
 
-interface SessionUser {
+export interface SessionUser {
   name: string;
   role: string;
   initials: string;
@@ -15,7 +15,9 @@ function writeSession<T>(key: string, value: T): void {
   try {
     const entry: SessionEntry<T> = { value, expiresAt: Date.now() + SESSION_TTL_MS };
     sessionStorage.setItem(key, JSON.stringify(entry));
-  } catch (_) {}
+  } catch (err) {
+    console.error('[BiasSense] Storage write failed:', err);
+  }
 }
 
 function readSession<T>(key: string): T | null {

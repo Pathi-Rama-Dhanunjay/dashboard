@@ -5,9 +5,6 @@ import { LogoLockup } from './shell.tsx';
 import { writeUser } from '../lib/session.ts';
 // Sign In — quiet enterprise minimal
 
-const DEMO_USER = 'admin';
-const DEMO_PASS = 'admin';
-
 // Full-page constellation field: slow drifting dots that connect to neighbors.
 // Cream-on-dark, subtle. No rotation, no spinner.
 const SignInBg = () => {
@@ -16,6 +13,7 @@ const SignInBg = () => {
     const canvas = ref.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     let w = 0,h = 0,dpr = 1,raf = 0,running = true;
 
     // Accent color, sampled from CSS so it tracks Tweaks
@@ -183,7 +181,7 @@ const SignInBg = () => {
       document.removeEventListener('visibilitychange', onVis);
     };
   }, []);
-  return <canvas ref={ref} className="signin-split-canvas" aria-hidden="true" />;
+  return <canvas ref={ref} className="signin-bg-canvas" aria-hidden="true" />;
 };
 
 const SignIn = ({ onNavigate }) => {
@@ -194,10 +192,10 @@ const SignIn = ({ onNavigate }) => {
   const [authErr, setAuthErr] = React.useState('');
   const [showPw, setShowPw] = React.useState(false);
 
-  const isAdmin = email.trim().toLowerCase() === DEMO_USER;
+  const isAdmin = email.trim().toLowerCase() === 'admin';
   const emailValid = isAdmin || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const showEmailErr = touched && email && !emailValid;
-  const canSubmit = emailValid && password.length >= 4 && !loading;
+  const canSubmit = emailValid && password.length >= 8 && !loading;
 
   const submit = (e) => {
     e.preventDefault();
@@ -206,7 +204,7 @@ const SignIn = ({ onNavigate }) => {
     if (!canSubmit) return;
     setLoading(true);
     setTimeout(() => {
-      const ok = isAdmin && password === DEMO_PASS || emailValid && !isAdmin;
+      const ok = isAdmin && password === 'admin' || emailValid && !isAdmin;
       if (!ok) {
         setLoading(false);
         setAuthErr('Invalid credentials.');
@@ -223,137 +221,40 @@ const SignIn = ({ onNavigate }) => {
   };
 
   return (
-    <div className="signin-split" data-screen-label="01 Sign In">
-      {/* LEFT — observability hero */}
-      <aside className="signin-split-left">
-        <SignInBg />
-
-        {/* TOP — parent brand ribbon + big BiasSense wordmark */}
-        <div className="signin-split-top">
-          <span className="signin-split-parent">
-            <span className="pmark">D</span>
-            <span className="pname">A <b>DataEQ Consulting</b> product</span>
-          </span>
-          <span className="signin-split-brand-big">
-            BiasSense<span className="arr">→</span>
-          </span>
-        </div>
-
-        {/* MIDDLE — live status + headline + observability tiles */}
-        <div className="signin-split-mid">
-          <span className="signin-split-status">
-            <span className="pulse" />
-            <span className="ml-tag">ML Observability</span>
-            <span className="sep">·</span>
-            <span>Live</span>
-          </span>
-
-          <h2 className="signin-split-headline">
-            Catch <span className="accent">bias</span> and <span className="accent">drift</span><br />
-            before regulators do.
-          </h2>
-
-          <p className="signin-split-sub">
-            ML observability for bias, drift, and compliance. Built for the teams who already
-            run Datadog and Sentry — now with an audit trail your legal team can hand directly
-            to any regulator.
-          </p>
-
-          {/* Live monitor tiles — mini observability widgets */}
-          <div className="signin-split-tiles">
-            <div className="signin-tile bias">
-              <div className="signin-tile-head">
-                <span>Bias</span>
-                <span className="status-pill pass"><span className="d" />PASS</span>
-              </div>
-              <div className="signin-tile-val">0.87<span className="u">DI</span></div>
-              <div className="signin-tile-sub">Disparate Impact · 4/5ths rule</div>
-              <svg className="signin-tile-spark" viewBox="0 0 100 22" preserveAspectRatio="none" aria-hidden="true">
-                <polyline points="2,16 14,13 26,15 38,11 50,12 62,9 74,10 86,7 98,8"
-                  fill="none" stroke="#7FD19A" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-
-            <div className="signin-tile drift">
-              <div className="signin-tile-head">
-                <span>Drift</span>
-                <span className="status-pill watch"><span className="d" />WATCH</span>
-              </div>
-              <div className="signin-tile-val">2.4<span className="u">σ</span></div>
-              <div className="signin-tile-sub">7-day baseline · prod data</div>
-              <svg className="signin-tile-spark" viewBox="0 0 100 22" preserveAspectRatio="none" aria-hidden="true">
-                <polyline points="2,17 14,15 26,14 38,12 50,10 62,11 74,8 86,6 98,4"
-                  fill="none" stroke="#F0C674" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-
-            <div className="signin-tile comp">
-              <div className="signin-tile-head">
-                <span>Compliance</span>
-                <span className="status-pill live"><span className="d" />LIVE</span>
-              </div>
-              <div className="signin-tile-val">4<span className="u">/ 4 frameworks</span></div>
-              <div className="signin-tile-sub">EEOC · EU AI Act · SR 11-7 · GDPR</div>
-              <svg className="signin-tile-spark" viewBox="0 0 100 22" preserveAspectRatio="none" aria-hidden="true">
-                <polyline points="2,12 14,12 26,11 38,11 50,10 62,10 74,9 86,9 98,8"
-                  fill="none" stroke="#6B8AFF" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
+    <div className="signin-quiet" data-screen-label="01 Sign In">
+      <SignInBg />
+      <div className="signin-quiet-inner">
+        <div className="signin-quiet-card" style={{ gap: "24px" }}>
+          <div className="signin-quiet-logo">
+            <LogoLockup size={26} />
           </div>
-        </div>
 
-        {/* BOTTOM — DataEQ parent + frameworks row */}
-        <div className="signin-split-bottom-l">
-          <div className="signin-split-by">
-            <div className="pmark-lg">D</div>
-            <div className="ptext">
-              <span className="ptiny">A product of</span>
-              <span className="pname-l"><b>DataEQ</b> Consulting</span>
-            </div>
-          </div>
-          <div className="signin-split-frameworks">
-            <span className="fw">EEOC</span>
-            <span className="fw">EU AI Act</span>
-            <span className="fw">SR 11-7</span>
-            <span className="fw">GDPR</span>
-            <span className="fw">NYC LL144</span>
-          </div>
-        </div>
-      </aside>
-
-      {/* RIGHT — form */}
-      <main className="signin-split-right">
-        <span className="signin-split-op">
-          <span className="d" />
-          <span>eu-west-1</span>
-          <span className="sep">·</span>
-          <span>Operational</span>
-        </span>
-
-        <div className="signin-split-form-wrap">
           <div>
-            <h1 className="signin-split-h1">Sign in</h1>
-            <p className="signin-split-sub-r">Welcome back. Use your workspace credentials.</p>
+            <h1 className="signin-quiet-title">Sign in</h1>
+            <p className="signin-subtle" style={{ margin: '8px 0 0', fontSize: 13.5, color: 'var(--text-muted)', fontWeight: 400 }}>
+              Welcome back. Use your workspace credentials.
+            </p>
           </div>
 
-          <form className="signin-split-form" onSubmit={submit}>
+          <form className="signin-quiet-form" onSubmit={submit}>
             <div className="field">
               <label htmlFor="email">Email</label>
               <input
                 id="email"
                 type="text"
                 value={email}
-                onChange={(e) => { setEmail(e.target.value); setAuthErr(''); }}
+                onChange={(e) => {setEmail(e.target.value);setAuthErr('');}}
                 onBlur={() => setTouched(true)}
                 placeholder="you@company.com"
                 autoComplete="username"
-                autoFocus
-              />
-              {showEmailErr && (
-                <div className="err">
-                  <Icon name="alert-triangle" size={12} /> Enter a valid email
+                autoFocus />
+
+              {showEmailErr &&
+              <div className="err">
+                  <Icon name="alert-triangle" size={12} />
+                  Enter a valid email
                 </div>
-              )}
+              }
             </div>
 
             <div className="field">
@@ -363,60 +264,47 @@ const SignIn = ({ onNavigate }) => {
                   id="password"
                   type={showPw ? 'text' : 'password'}
                   value={password}
-                  onChange={(e) => { setPassword(e.target.value); setAuthErr(''); }}
-                  placeholder="••••••••"
-                  autoComplete="current-password"
-                />
+                  onChange={(e) => {setPassword(e.target.value);setAuthErr('');}}
+                  placeholder=""
+                  autoComplete="current-password" />
+
                 <button
                   type="button"
                   className="password-toggle"
                   onClick={() => setShowPw((v) => !v)}
                   aria-label={showPw ? 'Hide password' : 'Show password'}
-                  tabIndex={-1}
-                >
+                  title={showPw ? 'Hide password' : 'Show password'}>
                   <Icon name={showPw ? 'eye-off' : 'eye'} size={15} />
                 </button>
               </div>
-              {authErr && (
-                <div className="err">
-                  <Icon name="alert-triangle" size={12} /> {authErr}
+              {authErr &&
+              <div className="err">
+                  <Icon name="alert-triangle" size={12} />
+                  {authErr}
                 </div>
-              )}
+              }
             </div>
 
-            <button type="submit" className="signin-split-cta" disabled={loading}>
-              <Icon name="lock" size={13} />
+            <button
+              type="submit"
+              className="btn btn-cream"
+              style={{ width: '100%', height: 42, marginTop: 4, fontSize: 13.5 }}
+              disabled={loading}>
+
               {loading ? 'Signing in…' : 'Sign in'}
             </button>
 
-            <div className="signin-split-row">
+            <div className="signin-quiet-row">
               <a href="#" onClick={(e) => e.preventDefault()}>Forgot password?</a>
-              <a className="sso" href="#" onClick={(e) => e.preventDefault()}>Use SSO</a>
+              <a href="#" onClick={(e) => e.preventDefault()}>Use SSO</a>
             </div>
-
-            <div className="signin-split-or">or</div>
-
-            <button
-              type="button"
-              className="signin-split-google"
-              onClick={() => {/* mock */}}
-            >
-              <svg width="16" height="16" viewBox="0 0 18 18" aria-hidden="true">
-                <path fill="#EA4335" d="M9 3.48c1.69 0 2.83.73 3.48 1.34l2.54-2.48C13.46.89 11.43 0 9 0 5.48 0 2.44 2.02.96 4.96l2.91 2.26C4.6 5.05 6.62 3.48 9 3.48z"/>
-                <path fill="#4285F4" d="M17.64 9.2c0-.74-.06-1.28-.19-1.84H9v3.34h4.96c-.1.83-.64 2.08-1.84 2.92l2.84 2.2c1.7-1.57 2.68-3.88 2.68-6.62z"/>
-                <path fill="#FBBC05" d="M3.88 10.78A5.54 5.54 0 0 1 3.58 9c0-.62.11-1.22.29-1.78L.96 4.96A9 9 0 0 0 0 9c0 1.45.35 2.82.96 4.04l2.92-2.26z"/>
-                <path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.84-2.2c-.76.53-1.78.9-3.12.9-2.38 0-4.4-1.57-5.12-3.74L.97 13.04C2.45 15.98 5.48 18 9 18z"/>
-              </svg>
-              Continue with Google
-            </button>
           </form>
-
-          <div className="signin-split-bottom">
-            No access yet? Contact your workspace admin.
-            <a href="#" onClick={(e) => e.preventDefault()}>Request access</a>
-          </div>
         </div>
-      </main>
+      </div>
+
+      <div className="signin-quiet-footer">
+        Don't have access? Contact your workspace admin. <a href="#" onClick={(e) => e.preventDefault()}>Request access</a>
+      </div>
     </div>
   );
 };

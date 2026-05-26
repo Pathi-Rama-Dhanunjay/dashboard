@@ -15,42 +15,7 @@ import { readUser, logout as sessionLogout } from '../lib/session.ts';
 // The active variant is read from `document.documentElement.dataset.logo`
 // — set by app.jsx via Tweaks.
 
-const useLogoVariant = () => {
-  const get = () => (typeof document !== 'undefined' && document.documentElement.dataset.logo) || 'square';
-  const [v, setV] = React.useState(get);
-  React.useEffect(() => {
-    const onChange = () => setV(get());
-    window.addEventListener('biassense:tweaked', onChange);
-    return () => window.removeEventListener('biassense:tweaked', onChange);
-  }, []);
-  return v;
-};
-
-const LogoMarkSquare = ({ size = 28 }) => (
-  <span
-    className="bs-mark bs-mark-square"
-    style={{
-      width: size, height: size,
-      fontSize: Math.round(size * 0.62),
-      lineHeight: 1,
-    }}
-    aria-hidden="true"
-  >B</span>
-);
-
-const LogoMarkRing = ({ size = 28 }) => (
-  <span className="bs-mark bs-mark-ring" style={{ width: size, height: size }} aria-hidden="true">
-    <svg viewBox="0 0 32 32" width={size} height={size}>
-      <circle cx="16" cy="16" r="13" fill="none" stroke="#FD4B23" strokeWidth="2.5" />
-      <circle cx="16" cy="16" r="6.5" fill="none" stroke="#FD4B23" strokeWidth="1.8" opacity="0.5" />
-      {/* threshold line + orbit dot */}
-      <line x1="3.5" y1="16" x2="28.5" y2="16" stroke="#FD4B23" strokeWidth="1.2" strokeLinecap="round" opacity="0.30" />
-      <circle cx="22" cy="16" r="3" fill="#FD4B23" />
-    </svg>
-  </span>
-);
-
-const Wordmark = ({ size }) => {
+const Wordmark = ({ size }: { size: number }) => {
   return (
     <span className="logo-word" style={{ fontSize: size, position: 'relative' }}>
       BiasSens<span style={{ position: 'relative', display: 'inline-block' }}>
@@ -249,8 +214,8 @@ const NavBtn = ({ item, active, onNavigate }) =>
   
     <Icon name={item.icon} className="nav-icon" size={15} />
     <span>{item.label}</span>
-    {item.alertCount && <span className="nav-count alert">{item.alertCount}</span>}
-    {item.count && !item.alertCount && <span className={`nav-count ${item.tone || ''}`}>{item.count}</span>}
+    {item.alertCount > 0 && <span className="nav-count alert">{item.alertCount}</span>}
+    {item.count > 0 && !item.alertCount && <span className={`nav-count ${item.tone || ''}`}>{item.count}</span>}
   </button>;
 
 
@@ -274,7 +239,7 @@ const NotifBell = () => {
     <div style={{ position: 'relative' }} ref={ref}>
       <button className="btn-icon" onClick={() => setOpen((o) => !o)} title="Notifications">
         <Icon name="bell" size={15} />
-        <span className="badge-dot"></span>
+        {!open && NOTIFICATIONS.length > 0 && <span className="badge-dot"></span>}
       </button>
       {open &&
       <div className="notif-pop">
@@ -390,6 +355,19 @@ const TopBar = ({ title, breadcrumb, onNavigate, hideActions = false, search = t
   const [runOpen, setRunOpen] = React.useState(false);
   const [q, setQ] = React.useState('');
   const user = useCurrentUser();
+  const searchRef = React.useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        searchRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
   return (
     <>
       <div className="topbar">
@@ -417,6 +395,7 @@ const TopBar = ({ title, breadcrumb, onNavigate, hideActions = false, search = t
               <path d="m21 21-4.3-4.3"/>
             </svg>
             <input
+              ref={searchRef}
               type="text"
               value={q}
               onChange={(e) => setQ(e.target.value)}

@@ -47,6 +47,19 @@
 [data-density="spacious"] .model-card { padding: 26px; gap: 18px; }
 [data-density="spacious"] .nav-item { height: 38px; }
 [data-density="spacious"] .topbar { padding: 0 40px; }
+[data-density="spacious"] .gauge { width: 160px; height: 160px; }
+[data-density="spacious"] .gauge-value { font-size: 40px; }
+[data-density="spacious"] .activity { height: 120px; }
+[data-density="spacious"] .donut, [data-density="spacious"] .donut svg { width: 152px !important; height: 152px !important; }
+[data-density="spacious"] .donut-num { font-size: 30px !important; }
+
+/* Respect reduced-motion preference — kill CSS transitions */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
 
 /* Mood: technical (mono uppercase tags replace italic serif accents) */
 [data-mood="technical"] .ital,

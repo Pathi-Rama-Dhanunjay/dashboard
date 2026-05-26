@@ -1,7 +1,4 @@
 
-import { Icon } from './icons.tsx';
-import { AppShell, Logo, LogoLockup, ToastProvider, useToast, useCurrentUser, NAV_ITEMS } from '../pages/shell.tsx';
-import { MODELS, riskPillClass, statusPill } from '../pages/models.tsx';
 import React from 'react';
 // Dashboard charts — gradient line / bars / sparkline variants.
 // All three share the same data shape: { labels: string[], values: number[] }.
@@ -38,10 +35,11 @@ const smoothPath = (pts) => {
 
 // ===== Gradient area line chart =====
 const GradientAreaChart = ({ data, height = 280, accent = '#FD4B23', secondary = '#FFCE76' }) => {
+  const uid = React.useId().replace(/:/g, '');
   const mounted = useMount();
   const wrapRef = React.useRef(null);
   const [w, setW] = React.useState(720);
-  const [hover, setHover] = React.useState(null);
+  const [hover, setHover] = React.useState<number | null>(null);
 
   React.useEffect(() => {
     if (!wrapRef.current) return;
@@ -95,12 +93,12 @@ const GradientAreaChart = ({ data, height = 280, accent = '#FD4B23', secondary =
     <div className="chart-svg-wrap" ref={wrapRef} onMouseLeave={() => setHover(null)} onMouseMove={onMove}>
       <svg viewBox={`0 0 ${w} ${height}`} preserveAspectRatio="none">
         <defs>
-          <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id={`${uid}-areaGrad`} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%"  stopColor={accent} stopOpacity="0.32" />
             <stop offset="60%" stopColor={accent} stopOpacity="0.12" />
             <stop offset="100%" stopColor={accent} stopOpacity="0" />
           </linearGradient>
-          <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+          <linearGradient id={`${uid}-lineGrad`} x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stopColor={accent} />
             <stop offset="100%" stopColor="#FF7B58" />
           </linearGradient>
@@ -143,14 +141,14 @@ const GradientAreaChart = ({ data, height = 280, accent = '#FD4B23', secondary =
         )}
 
         {/* Primary area fill */}
-        <path d={areaD} fill="url(#areaGrad)"
+        <path d={areaD} fill={`url(#${uid}-areaGrad)`}
               style={{ opacity: mounted ? 1 : 0, transition: 'opacity 800ms ease 200ms' }} />
 
         {/* Primary line */}
         <path
           d={primaryD}
           fill="none"
-          stroke="url(#lineGrad)"
+          stroke={`url(#${uid}-lineGrad)`}
           strokeWidth="2.6"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -193,10 +191,11 @@ const GradientAreaChart = ({ data, height = 280, accent = '#FD4B23', secondary =
 
 // ===== Rounded bar chart =====
 const RoundedBarChart = ({ data, height = 280, accent = '#FD4B23' }) => {
+  const uid = React.useId().replace(/:/g, '');
   const mounted = useMount();
   const wrapRef = React.useRef(null);
   const [w, setW] = React.useState(720);
-  const [hover, setHover] = React.useState(null);
+  const [hover, setHover] = React.useState<number | null>(null);
 
   React.useEffect(() => {
     if (!wrapRef.current) return;
@@ -226,11 +225,11 @@ const RoundedBarChart = ({ data, height = 280, accent = '#FD4B23' }) => {
     <div className="chart-svg-wrap" ref={wrapRef} onMouseLeave={() => setHover(null)}>
       <svg viewBox={`0 0 ${w} ${height}`} preserveAspectRatio="none">
         <defs>
-          <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id={`${uid}-barGrad`} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#FF7B58" />
             <stop offset="100%" stopColor={accent} />
           </linearGradient>
-          <linearGradient id="barGradDim" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id={`${uid}-barGradDim`} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="rgba(255,255,255,0.18)" />
             <stop offset="100%" stopColor="rgba(255,255,255,0.08)" />
           </linearGradient>
@@ -263,7 +262,7 @@ const RoundedBarChart = ({ data, height = 280, accent = '#FD4B23' }) => {
                 height={h}
                 rx={Math.min(barW / 2, 8)}
                 ry={Math.min(barW / 2, 8)}
-                fill={isHover ? 'url(#barGrad)' : (i === data.primary.values.length - 1 ? 'url(#barGrad)' : 'url(#barGradDim)')}
+                fill={isHover ? `url(#${uid}-barGrad)` : (i === data.primary.values.length - 1 ? `url(#${uid}-barGrad)` : `url(#${uid}-barGradDim)`)}
                 style={{ transition: 'height 800ms cubic-bezier(0.22, 1, 0.36, 1), fill 150ms ease' }}
               />
               {(i % Math.max(1, Math.floor(n / 7)) === 0 || i === n - 1) && (
@@ -295,6 +294,7 @@ const RoundedBarChart = ({ data, height = 280, accent = '#FD4B23' }) => {
 
 // ===== Sparkline (minimal) =====
 const SparkChart = ({ data, height = 280, accent = '#FD4B23' }) => {
+  const uid = React.useId().replace(/:/g, '');
   const mounted = useMount();
   const wrapRef = React.useRef(null);
   const [w, setW] = React.useState(720);
@@ -324,7 +324,7 @@ const SparkChart = ({ data, height = 280, accent = '#FD4B23' }) => {
   const last = vals[vals.length - 1];
   const first = vals[0];
   const delta = last - first;
-  const pctDelta = ((delta / first) * 100).toFixed(1);
+  const pctDelta = first !== 0 ? ((delta / first) * 100).toFixed(1) : '0.0';
 
   return (
     <div className="chart-svg-wrap" ref={wrapRef} style={{ height }}>
@@ -351,12 +351,12 @@ const SparkChart = ({ data, height = 280, accent = '#FD4B23' }) => {
 
       <svg viewBox={`0 0 ${w} ${height}`} preserveAspectRatio="none">
         <defs>
-          <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id={`${uid}-sparkGrad`} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor={accent} stopOpacity="0.45" />
             <stop offset="100%" stopColor={accent} stopOpacity="0" />
           </linearGradient>
         </defs>
-        <path d={areaD} fill="url(#sparkGrad)"
+        <path d={areaD} fill={`url(#${uid}-sparkGrad)`}
               style={{ opacity: mounted ? 1 : 0, transition: 'opacity 800ms ease 200ms' }} />
         <path
           d={lineD}

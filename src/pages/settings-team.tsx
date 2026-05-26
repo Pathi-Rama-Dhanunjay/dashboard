@@ -1,7 +1,6 @@
 
 import { Icon } from '../components/icons.tsx';
-import { AppShell, Logo, LogoLockup, ToastProvider, useToast, useCurrentUser, NAV_ITEMS } from './shell.tsx';
-import { MODELS, riskPillClass, statusPill } from './models.tsx';
+import { AppShell, useToast, useCurrentUser } from './shell.tsx';
 import React from 'react';
 import { InviteList, ROLE_HELPER, ROLES } from './invite-row.tsx';
 // Settings → Team
@@ -30,9 +29,9 @@ const TeamSettings = ({ onNavigate }) => {
   ]);
 
   const updateRole = (id, role) => {
-    setMembers(prev => prev.map(m => m.id === id ? { ...m, role } : m));
     const m = members.find(x => x.id === id);
-    toast({ title: 'Role updated', desc: `${m.name} is now ${role}`, icon: 'check' });
+    setMembers(prev => prev.map(mb => mb.id === id ? { ...mb, role } : mb));
+    if (m) toast({ title: 'Role updated', desc: `${m.name} is now ${role}`, icon: 'check' });
   };
 
   const removeMember = (id) => {

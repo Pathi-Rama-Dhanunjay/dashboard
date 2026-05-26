@@ -1,8 +1,8 @@
 import { GradientAreaChart, RoundedBarChart, SparkChart, MicroSpark, useMount } from '../components/charts.tsx';
 
 import { Icon } from '../components/icons.tsx';
-import { AppShell, Logo, LogoLockup, ToastProvider, useToast, useCurrentUser, NAV_ITEMS } from './shell.tsx';
-import { MODELS, riskPillClass, statusPill } from './models.tsx';
+import { AppShell, useCurrentUser } from './shell.tsx';
+import { MODELS } from './models.tsx';
 import React from 'react';
 // Dashboard — BiasSense, WebPulse-inspired editorial layout.
 // Sections, top-to-bottom:
@@ -13,7 +13,7 @@ import React from 'react';
 //   5. Last analyses table — recent runs
 
 const Dashboard = ({ onNavigate }) => {
-  const user = (window.useCurrentUser && window.useCurrentUser()) || { name: 'Sarah' };
+  const user = useCurrentUser();
   const firstName = (user.name || 'there').split(' ')[0];
 
   // ---- chart-style tweak — read from the html data attr (set by app.jsx) ----
@@ -30,7 +30,7 @@ const Dashboard = ({ onNavigate }) => {
   const [range, setRange] = React.useState('30d');
   const TREND_DATA = React.useMemo(() => buildTrendData(range), [range]);
 
-  const today = new Date('2026-05-22');
+  const today = new Date();
   const dateLine = today.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
 
   return (
@@ -41,7 +41,7 @@ const Dashboard = ({ onNavigate }) => {
           <h1 className="dash-greeting-title">Good morning, {firstName}.</h1>
           <div className="dash-greeting-sub">
             <span className="live-dot" style={{ background: 'var(--mint)' }}></span>
-            {' '}{dateLine} · 12 models monitored · workspace healthy
+            {' '}{dateLine} · {MODELS.length} models monitored · workspace healthy
           </div>
         </div>
         <div className="dash-greeting-actions">
@@ -64,7 +64,7 @@ const Dashboard = ({ onNavigate }) => {
             <div className="kpi-tile-value">
               {k.value}{k.unit && <span className="unit">{k.unit}</span>}
             </div>
-            <div className={`kpi-tile-delta ${k.delta >= 0 ? 'up' : (k.delta === 0 ? 'flat' : 'down')}`}>
+            <div className={`kpi-tile-delta ${k.delta > 0 ? 'up' : k.delta < 0 ? 'down' : 'flat'}`}>
               {k.delta > 0 ? '▲' : k.delta < 0 ? '▼' : '◆'} {Math.abs(k.delta)}{k.deltaUnit || '%'}
               <span style={{ fontWeight: 500, color: 'inherit', opacity: 0.7, marginLeft: 2 }}>vs last week</span>
             </div>

@@ -1,7 +1,7 @@
 import { useMount } from '../components/charts.tsx';
 
 import { Icon } from '../components/icons.tsx';
-import { AppShell, Logo, LogoLockup, ToastProvider, useToast, useCurrentUser, NAV_ITEMS } from './shell.tsx';
+import { AppShell, useToast } from './shell.tsx';
 import { MODELS, riskPillClass, statusPill } from './models.tsx';
 import React from 'react';
 // Model detail — interactive tabs, sortable group table, AI risk summary

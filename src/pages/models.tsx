@@ -1,6 +1,6 @@
 
 import { Icon } from '../components/icons.tsx';
-import { AppShell, Logo, LogoLockup, ToastProvider, useToast, useCurrentUser, NAV_ITEMS } from './shell.tsx';
+import { AppShell } from './shell.tsx';
 
 import React from 'react';
 // Models list
@@ -45,7 +45,7 @@ const ModelsList = ({ onNavigate }) => {
         <div className="page-head mount-up">
           <div>
             <h1>All <span className="ital">models</span>.</h1>
-            <p className="sub">24 monitored · {filtered.length} shown · Last sync 2 minutes ago</p>
+            <p className="sub">{MODELS.length} registered · {filtered.length} shown · Last sync 2 minutes ago</p>
           </div>
           <div className="page-head-actions">
             <button className="btn btn-ghost"><Icon name="download" size={13} />Export</button>

@@ -7,12 +7,15 @@ interface Props {
 
 interface State {
   error: Error | null;
+  retryCount: number;
 }
 
-export class ErrorBoundary extends React.Component<Props, State> {
-  state: State = { error: null };
+const MAX_RETRIES = 3;
 
-  static getDerivedStateFromError(error: Error): State {
+export class ErrorBoundary extends React.Component<Props, State> {
+  state: State = { error: null, retryCount: 0 };
+
+  static getDerivedStateFromError(error: Error): Partial<State> {
     return { error };
   }
 
@@ -39,7 +42,14 @@ export class ErrorBoundary extends React.Component<Props, State> {
             {this.state.error.message}
           </div>
           <button
-            onClick={() => this.setState({ error: null })}
+            disabled={this.state.retryCount >= MAX_RETRIES}
+            onClick={() => {
+              if (this.state.retryCount >= MAX_RETRIES) {
+                window.location.reload();
+                return;
+              }
+              this.setState((prev) => ({ error: null, retryCount: prev.retryCount + 1 }));
+            }}
             style={{
               marginTop: 8,
               padding: '8px 16px',
@@ -52,7 +62,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
               fontWeight: 500,
             }}
           >
-            Try again
+            {this.state.retryCount >= MAX_RETRIES ? 'Reload page' : 'Try again'}
           </button>
         </div>
       );

@@ -374,9 +374,10 @@ body {
   white-space: nowrap;
 }
 
-/* Enterprise dashboards target 1280px+. Keep the layout sane on narrower
-   widths by enforcing a min content width — users can scroll if needed. */
-.app-shell { min-width: 1280px; }
+.app-shell { min-width: 0; }
+@media (min-width: 1280px) {
+  .app-shell { min-width: 1280px; }
+}
 .crumbs { font-size: 11.5px; font-weight: 600; }
 .topbar-search input {
   background: rgba(255, 255, 255, 0.04);

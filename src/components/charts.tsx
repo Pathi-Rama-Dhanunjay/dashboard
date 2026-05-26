@@ -16,7 +16,7 @@ const useMount = () => {
 
 // Catmull-Rom → cubic Bezier path. Produces buttery curves like WebPulse
 // uses for its analytics lines. Input pts: [[x,y], ...].
-const smoothPath = (pts) => {
+const smoothPath = (pts: [number, number][]) => {
   if (pts.length < 2) return '';
   const d = [`M ${pts[0][0]} ${pts[0][1]}`];
   for (let i = 0; i < pts.length - 1; i++) {
@@ -382,12 +382,13 @@ const SparkChart = ({ data, height = 280, accent = '#FD4B23' }) => {
 };
 
 // ===== Tiny inline sparkline for KPI tiles =====
-const MicroSpark = ({ values, color = 'var(--text-muted)', width = 80, height = 24 }) => {
+const MicroSpark = ({ values, color = 'var(--text-muted)', width = 80, height = 24 }: { values: number[]; color?: string; width?: number; height?: number }) => {
+  if (!values || values.length === 0) return null;
   const minV = Math.min(...values);
   const maxV = Math.max(...values);
   const range = (maxV - minV) || 1;
-  const pts = values.map((v, i) => [
-    (i / (values.length - 1)) * width,
+  const pts: [number, number][] = values.map((v, i) => [
+    values.length === 1 ? width / 2 : (i / (values.length - 1)) * width,
     height - ((v - minV) / range) * height,
   ]);
   return (

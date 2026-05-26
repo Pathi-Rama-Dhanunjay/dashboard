@@ -1,6 +1,23 @@
 import React from 'react';
-// Inline icon set — Lucide-style, 1.75 stroke
-const Icon = ({ name, size = 16, className = '', strokeWidth = 1.75 }) => {
+
+type IconName =
+  | 'dashboard' | 'datasets' | 'models' | 'analysis' | 'deepdive' | 'audit'
+  | 'alerts' | 'settings' | 'bell' | 'play' | 'upload' | 'folder'
+  | 'chevron-right' | 'arrow-right' | 'arrow-up' | 'arrow-down'
+  | 'alert-triangle' | 'shield' | 'shield-check' | 'info' | 'check' | 'x'
+  | 'sparkles' | 'plus' | 'filter' | 'download' | 'eye' | 'eye-off'
+  | 'clock' | 'cube' | 'database' | 'trending' | 'logout' | 'flag'
+  | 'more-h' | 'mail' | 'user-plus' | 'users' | 'briefcase' | 'lock'
+  | 'chevron-down' | 'trash';
+
+interface IconProps {
+  name: IconName;
+  size?: number;
+  className?: string;
+  strokeWidth?: number;
+}
+
+const Icon = ({ name, size = 16, className = '', strokeWidth = 1.75 }: IconProps) => {
   const p = {
     fill: 'none',
     stroke: 'currentColor',

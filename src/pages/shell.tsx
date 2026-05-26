@@ -61,14 +61,29 @@ const ToastContext = React.createContext(null);
 
 const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = React.useState([]);
+  const timersRef = React.useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
+
+  React.useEffect(() => {
+    return () => {
+      timersRef.current.forEach((tid) => clearTimeout(tid));
+      timersRef.current.clear();
+    };
+  }, []);
+
   const push = React.useCallback((t) => {
     const id = Math.random().toString(36).slice(2);
     setToasts((prev) => [...prev, { id, ...t }]);
-    setTimeout(() => {
+    const tid = setTimeout(() => {
+      timersRef.current.delete(id);
       setToasts((prev) => prev.filter((x) => x.id !== id));
     }, t.duration || 4200);
+    timersRef.current.set(id, tid);
   }, []);
-  const dismiss = (id) => setToasts((prev) => prev.filter((x) => x.id !== id));
+  const dismiss = (id) => {
+    const tid = timersRef.current.get(id);
+    if (tid) { clearTimeout(tid); timersRef.current.delete(id); }
+    setToasts((prev) => prev.filter((x) => x.id !== id));
+  };
 
   return (
     <ToastContext.Provider value={push}>
@@ -272,11 +287,20 @@ const RunAnalysisModal = ({ open, onClose }) => {
   const toast = useToast();
   const [model, setModel] = React.useState('CreditRisk v2.4.1');
   const [running, setRunning] = React.useState(false);
+  const timeoutsRef = React.useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  React.useEffect(() => {
+    return () => {
+      timeoutsRef.current.forEach((tid) => clearTimeout(tid));
+      timeoutsRef.current = [];
+    };
+  }, []);
+
   if (!open) return null;
 
   const run = () => {
     setRunning(true);
-    setTimeout(() => {
+    const t1 = setTimeout(() => {
       setRunning(false);
       onClose();
       toast({
@@ -285,7 +309,7 @@ const RunAnalysisModal = ({ open, onClose }) => {
         icon: 'play',
         tone: ''
       });
-      setTimeout(() => {
+      const t2 = setTimeout(() => {
         toast({
           title: 'Analysis complete',
           desc: `${model} · Fairness score 76 (+4)`,
@@ -293,7 +317,9 @@ const RunAnalysisModal = ({ open, onClose }) => {
           tone: ''
         });
       }, 3200);
+      timeoutsRef.current.push(t2);
     }, 700);
+    timeoutsRef.current.push(t1);
   };
 
   return (

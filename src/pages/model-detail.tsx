@@ -46,7 +46,7 @@ const TAB_META = {
 
 const ModelDetail = ({ modelId, onNavigate }) => {
   const toast = useToast();
-  const model = (window.MODELS || []).find(m => m.id === modelId) || window.MODELS[0];
+  const model = MODELS.find(m => m.id === modelId) ?? MODELS[0];
   const [tab, setTab] = React.useState('group');
   const [sortBy, setSortBy] = React.useState('di');
   const [sortDir, setSortDir] = React.useState('asc');

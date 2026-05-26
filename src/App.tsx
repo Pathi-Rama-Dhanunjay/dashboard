@@ -77,7 +77,12 @@ const App = () => {
     view = <Onboarding onNavigate={onNavigate} />;
   } else if (path.startsWith('/invite/')) {
     const token = path.split('/')[2];
-    view = <AcceptInvite token={token} onNavigate={onNavigate} />;
+    if (token) {
+      view = <AcceptInvite token={token} onNavigate={onNavigate} />;
+    } else {
+      onNavigate('/signin');
+      view = <SignIn onNavigate={onNavigate} />;
+    }
   } else if (path === '/settings/team') {
     view = <TeamSettings onNavigate={onNavigate} />;
   } else if (path === '/dashboard') {
@@ -86,7 +91,11 @@ const App = () => {
     view = <ModelsList onNavigate={onNavigate} />;
   } else if (path.startsWith('/models/')) {
     const id = path.split('/')[2];
-    view = <ModelDetail modelId={id} onNavigate={onNavigate} />;
+    if (id) {
+      view = <ModelDetail modelId={id} onNavigate={onNavigate} />;
+    } else {
+      view = <ModelsList onNavigate={onNavigate} />;
+    }
   } else if (path === '/settings') {
     view = <TeamSettings onNavigate={onNavigate} />;
   } else {

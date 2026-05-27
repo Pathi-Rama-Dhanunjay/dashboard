@@ -192,10 +192,7 @@ const SignIn = ({ onNavigate }) => {
   const [authErr, setAuthErr] = React.useState('');
   const [showPw, setShowPw] = React.useState(false);
 
-  const isAdmin = email.trim().toLowerCase() === 'admin';
-  const emailValid = isAdmin || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const showEmailErr = touched && email && !emailValid;
-  const canSubmit = emailValid && password.length >= 8 && !loading;
+  const canSubmit = email.trim().length > 0 && password.length > 0 && !loading;
 
   const submit = (e) => {
     e.preventDefault();
@@ -204,17 +201,13 @@ const SignIn = ({ onNavigate }) => {
     if (!canSubmit) return;
     setLoading(true);
     setTimeout(() => {
-      const ok = isAdmin && password === 'admin' || emailValid && !isAdmin;
+      const ok = email.trim().toLowerCase() === 'admin' && password === 'admin';
       if (!ok) {
         setLoading(false);
         setAuthErr('Invalid credentials.');
         return;
       }
-      writeUser({
-        name: isAdmin ? 'Admin' : 'Sarah Kim',
-        role: isAdmin ? 'Super Admin' : 'ML Platform · Lead',
-        initials: isAdmin ? 'AD' : 'SK',
-      });
+      writeUser({ name: 'Admin', role: 'Super Admin', initials: 'AD' });
       setLoading(false);
       onNavigate('/dashboard');
     }, 500);
@@ -249,12 +242,6 @@ const SignIn = ({ onNavigate }) => {
                 autoComplete="username"
                 autoFocus />
 
-              {showEmailErr &&
-              <div className="err">
-                  <Icon name="alert-triangle" size={12} />
-                  Enter a valid email
-                </div>
-              }
             </div>
 
             <div className="field">

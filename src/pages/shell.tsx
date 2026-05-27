@@ -151,7 +151,7 @@ const UserCard = ({ onNavigate }) => {
   const logout = () => {
     sessionLogout();
     setOpen(false);
-    onNavigate('/signin');
+    onNavigate('/dashboard');
   };
 
   return (

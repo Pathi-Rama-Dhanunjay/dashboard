@@ -4,7 +4,14 @@ import { Icon } from '../components/icons.tsx';
 // InviteRow — reusable invite input + role select + remove button
 // Used by onboarding step 2 and Settings > Team
 
-const ROLES = [
+type RoleId = 'admin' | 'analyst' | 'viewer';
+
+interface Role {
+  id: RoleId;
+  label: string;
+}
+
+const ROLES: ReadonlyArray<Role> = [
   { id: 'admin',   label: 'Admin'   },
   { id: 'analyst', label: 'Analyst' },
   { id: 'viewer',  label: 'Viewer'  },
@@ -21,7 +28,21 @@ const ROLE_HELPER = (
   </div>
 );
 
-const InviteRow = ({ invite, onChange, onRemove, canRemove = true, autoFocus = false }) => {
+export interface Invite {
+  id: string;
+  email: string;
+  role: string;
+}
+
+interface InviteRowProps {
+  invite: Invite;
+  onChange: (invite: Invite) => void;
+  onRemove: () => void;
+  canRemove?: boolean;
+  autoFocus?: boolean;
+}
+
+const InviteRow: React.FC<InviteRowProps> = ({ invite, onChange, onRemove, canRemove = true, autoFocus = false }) => {
   return (
     <div className="invite-row">
       <div className="invite-input">
@@ -53,21 +74,26 @@ const InviteRow = ({ invite, onChange, onRemove, canRemove = true, autoFocus = f
   );
 };
 
-const InviteList = ({ invites, setInvites }) => {
-  const update = (i, next) => {
+interface InviteListProps {
+  invites: Invite[];
+  setInvites: React.Dispatch<React.SetStateAction<Invite[]>>;
+}
+
+const InviteList: React.FC<InviteListProps> = ({ invites, setInvites }) => {
+  const update = (i: number, next: Invite) => {
     setInvites(invites.map((inv, idx) => idx === i ? next : inv));
   };
-  const remove = (i) => {
+  const remove = (i: number) => {
     setInvites(invites.filter((_, idx) => idx !== i));
   };
   const add = () => {
-    setInvites([...invites, { email: '', role: 'analyst' }]);
+    setInvites([...invites, { id: Math.random().toString(36).slice(2), email: '', role: 'analyst' }]);
   };
   return (
     <div>
       {invites.map((inv, i) => (
         <InviteRow
-          key={i}
+          key={inv.id}
           invite={inv}
           onChange={(next) => update(i, next)}
           onRemove={() => remove(i)}

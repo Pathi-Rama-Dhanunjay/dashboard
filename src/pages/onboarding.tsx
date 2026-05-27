@@ -45,7 +45,7 @@ const PLANS = [
   { id: 'enterprise', label: 'Enterprise', sub: 'With SSO & SLAs' },
 ];
 
-const slugify = (s) => (s || '')
+const slugify = (s?: string): string => (s || '')
   .toLowerCase()
   .trim()
   .replace(/[^a-z0-9\s-]/g, '')
@@ -53,7 +53,30 @@ const slugify = (s) => (s || '')
   .replace(/-+/g, '-')
   .replace(/^-|-$/g, '');
 
-const Stepper = ({ current }) => (
+// ===== Types =====
+
+interface FormType {
+  org_name: string;
+  org_slug: string;
+  full_name: string;
+  industry: string;
+  regulatory_framework: string;
+  plan_tier: string;
+}
+
+interface TeamInvite {
+  id: string;
+  email: string;
+  full_name: string;
+}
+
+// ===== Stepper =====
+
+interface StepperProps {
+  current: number;
+}
+
+const Stepper: React.FC<StepperProps> = ({ current }) => (
   <div className="stepper">
     {STEPS.map((s, i) => (
       <React.Fragment key={s.id}>
@@ -72,8 +95,16 @@ const Stepper = ({ current }) => (
 );
 
 // ===== Step 1 =====
-const Step1Workspace = ({ form, setForm, slugTouched, setSlugTouched }) => {
-  const onOrgChange = (v) => {
+
+interface Step1WorkspaceProps {
+  form: FormType;
+  setForm: React.Dispatch<React.SetStateAction<FormType>>;
+  slugTouched: boolean;
+  setSlugTouched: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Step1Workspace: React.FC<Step1WorkspaceProps> = ({ form, setForm, slugTouched, setSlugTouched }) => {
+  const onOrgChange = (v: string) => {
     setForm(prev => ({
       ...prev,
       org_name: v,
@@ -176,7 +207,15 @@ const Step1Workspace = ({ form, setForm, slugTouched, setSlugTouched }) => {
 };
 
 // ===== Step 2 =====
-const TeamInviteRow = ({ invite, onChange, onRemove, canRemove }) => (
+
+interface TeamInviteRowProps {
+  invite: TeamInvite;
+  onChange: (invite: TeamInvite) => void;
+  onRemove: () => void;
+  canRemove: boolean;
+}
+
+const TeamInviteRow: React.FC<TeamInviteRowProps> = ({ invite, onChange, onRemove, canRemove }) => (
   <div className="invite-row team-onboard-row">
     <div className="invite-input">
       <input
@@ -208,12 +247,17 @@ const TeamInviteRow = ({ invite, onChange, onRemove, canRemove }) => (
   </div>
 );
 
-const Step2Team = ({ invites, setInvites }) => {
-  const update = (i, next) => setInvites(invites.map((inv, idx) => idx === i ? next : inv));
-  const remove = (i) => setInvites(invites.filter((_, idx) => idx !== i));
+interface Step2TeamProps {
+  invites: TeamInvite[];
+  setInvites: React.Dispatch<React.SetStateAction<TeamInvite[]>>;
+}
+
+const Step2Team: React.FC<Step2TeamProps> = ({ invites, setInvites }) => {
+  const update = (i: number, next: TeamInvite) => setInvites(invites.map((inv, idx) => idx === i ? next : inv));
+  const remove = (i: number) => setInvites(invites.filter((_, idx) => idx !== i));
   const add = () => {
     if (invites.length >= 5) return;
-    setInvites([...invites, { email: '', full_name: '' }]);
+    setInvites([...invites, { id: Math.random().toString(36).slice(2), email: '', full_name: '' }]);
   };
   return (
     <>
@@ -228,7 +272,7 @@ const Step2Team = ({ invites, setInvites }) => {
       <div>
         {invites.map((inv, i) => (
           <TeamInviteRow
-            key={i}
+            key={inv.id}
             invite={inv}
             onChange={(next) => update(i, next)}
             onRemove={() => remove(i)}
@@ -254,7 +298,12 @@ const Step2Team = ({ invites, setInvites }) => {
 };
 
 // ===== Wizard root =====
-const Onboarding = ({ onNavigate }) => {
+
+interface OnboardingProps {
+  onNavigate: (path: string) => void;
+}
+
+const Onboarding: React.FC<OnboardingProps> = ({ onNavigate }) => {
   const toast = useToast();
   const user = useCurrentUser();
 
@@ -262,7 +311,7 @@ const Onboarding = ({ onNavigate }) => {
   const [submitting, setSubmitting] = React.useState(false);
   const [slugTouched, setSlugTouched] = React.useState(false);
 
-  const [form, setForm] = React.useState({
+  const [form, setForm] = React.useState<FormType>({
     org_name: '',
     org_slug: '',
     full_name: user && user.name && user.name !== 'Admin' ? user.name : '',
@@ -271,9 +320,9 @@ const Onboarding = ({ onNavigate }) => {
     plan_tier: 'pro',
   });
 
-  const [invites, setInvites] = React.useState([
-    { email: '', full_name: '' },
-    { email: '', full_name: '' },
+  const [invites, setInvites] = React.useState<TeamInvite[]>([
+    { id: Math.random().toString(36).slice(2), email: '', full_name: '' },
+    { id: Math.random().toString(36).slice(2), email: '', full_name: '' },
   ]);
 
   const canContinueStep1 =
@@ -296,7 +345,10 @@ const Onboarding = ({ onNavigate }) => {
           organization_id,
           user_id,
         }));
-      } catch (_) {}
+      } catch (e) {
+        console.error('[BiasSense] Failed to persist workspace to sessionStorage:', e);
+        toast({ title: 'Workspace save failed', desc: 'Could not save workspace data locally. Please try again.', icon: 'alert-triangle', tone: 'amber' });
+      }
       setSubmitting(false);
       toast({ title: 'Workspace created', desc: `${form.org_name} · ${form.plan_tier} plan`, icon: 'check' });
       setStep(2);
@@ -306,7 +358,7 @@ const Onboarding = ({ onNavigate }) => {
   // Mock POST /api/v1/users (one per row)
   const submitInvites = () => {
     const valid = invites.filter(i => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(i.email));
-    return new Promise((resolve) => {
+    return new Promise<{ sent: number }>((resolve) => {
       if (valid.length === 0) { resolve({ sent: 0 }); return; }
       setSubmitting(true);
       setTimeout(() => {

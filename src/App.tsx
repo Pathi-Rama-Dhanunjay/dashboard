@@ -12,6 +12,11 @@ import { TweaksPanel, TweakSection, TweakRadio, useTweaks } from './components/t
 
 // Hash router + app root + tweaks
 
+const Redirect = ({ to, onNavigate, fallback }: { to: string; onNavigate: (path: string) => void; fallback: React.ReactNode }) => {
+  React.useEffect(() => { onNavigate(to); }, [to, onNavigate]);
+  return <>{fallback}</>;
+};
+
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "logo": "square",
   "chart": "gradient",
@@ -80,8 +85,7 @@ const App = () => {
     if (token) {
       view = <AcceptInvite token={token} onNavigate={onNavigate} />;
     } else {
-      onNavigate('/signin');
-      view = <SignIn onNavigate={onNavigate} />;
+      view = <Redirect to="/signin" onNavigate={onNavigate} fallback={<SignIn onNavigate={onNavigate} />} />;
     }
   } else if (path === '/settings/team') {
     view = <TeamSettings onNavigate={onNavigate} />;
@@ -94,8 +98,7 @@ const App = () => {
     if (id) {
       view = <ModelDetail modelId={id} onNavigate={onNavigate} />;
     } else {
-      onNavigate('/models');
-      view = <ModelsList onNavigate={onNavigate} />;
+      view = <Redirect to="/models" onNavigate={onNavigate} fallback={<ModelsList onNavigate={onNavigate} />} />;
     }
   } else if (path === '/settings') {
     view = <TeamSettings onNavigate={onNavigate} />;

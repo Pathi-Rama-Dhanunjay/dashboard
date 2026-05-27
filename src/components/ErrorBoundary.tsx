@@ -42,7 +42,6 @@ export class ErrorBoundary extends React.Component<Props, State> {
             {this.state.error.message}
           </div>
           <button
-            disabled={this.state.retryCount > MAX_RETRIES}
             onClick={() => {
               if (this.state.retryCount >= MAX_RETRIES) {
                 window.location.reload();

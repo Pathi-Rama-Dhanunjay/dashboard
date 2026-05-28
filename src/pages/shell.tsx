@@ -15,7 +15,7 @@ import { readUser, logout as sessionLogout } from '../lib/session.ts';
 // The active variant is read from `document.documentElement.dataset.logo`
 // — set by app.jsx via Tweaks.
 
-const Wordmark = ({ size }: { size: number }) => {
+const Wordmark = ({ size }: { size: number | string }) => {
   return (
     <span className="logo-word" style={{ fontSize: size, position: 'relative', color: '#0F172A' }}>
       BiasSens<span style={{ position: 'relative', display: 'inline-block' }}>
@@ -25,15 +25,15 @@ const Wordmark = ({ size }: { size: number }) => {
             position: 'absolute',
             top: '-0.1em',
             left: '100%',
-            transform: 'scaleX(0.95)',
+            transform: 'scaleX(0.7)',
             transformOrigin: 'left center',
-            fontSize: '0.52em',
+            fontSize: '0.58em',
             lineHeight: 1,
             color: '#0F172A',
-            fontWeight: 700,
+            fontWeight: 900,
             letterSpacing: 0,
             whiteSpace: 'nowrap',
-            WebkitTextStroke: '1px currentColor',
+            WebkitTextStroke: '1.8px currentColor',
           }}
         >→</span>
       </span>
@@ -41,7 +41,7 @@ const Wordmark = ({ size }: { size: number }) => {
   );
 };
 
-const Logo = ({ size = 15 }) => {
+const Logo = ({ size = 15 }: { size?: number | string }) => {
   return (
     <span className="logo logo-lock" style={{ fontSize: size }}>
       <Wordmark size={size} />
@@ -49,7 +49,7 @@ const Logo = ({ size = 15 }) => {
   );
 };
 
-const LogoLockup = ({ size = 18 }) => {
+const LogoLockup = ({ size = 18 }: { size?: number | string }) => {
   return (
     <span className="logo-lockup" style={{ fontSize: size }}>
       <Wordmark size={size} />

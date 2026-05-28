@@ -151,6 +151,7 @@ const SignInBg = () => {
   return <canvas ref={ref} className="signin-bg-canvas" aria-hidden="true" />;
 };
 
+
 const GoogleIcon = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
     <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908C16.658 14.253 17.64 11.945 17.64 9.2z" fill="#4285F4"/>
@@ -196,7 +197,7 @@ const SignIn = ({ onNavigate }) => {
 
             {/* TOP: logo */}
             <div className="signin-split-logo">
-              <LogoLockup size={42} />
+              <LogoLockup size="clamp(30px, 4.75vw, 53px)" />
             </div>
 
             {/* MIDDLE: hero + cards */}
@@ -246,7 +247,7 @@ const SignIn = ({ onNavigate }) => {
         <div className="signin-split-right">
           <div className="signin-quiet-card">
             <div className="signin-mobile-logo">
-              <LogoLockup size={32} />
+              <LogoLockup size="clamp(20px, 2.8vw, 32px)" />
             </div>
 
             <div>

@@ -724,12 +724,12 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   align-items: stretch;
   justify-content: center;
-  padding: 48px 56px;
+  padding: clamp(24px, 4vw, 48px) clamp(28px, 5vw, 56px);
   border-right: 1px solid rgba(255, 255, 255, 0.06);
 }
 .signin-split-left-inner {
   width: 100%;
-  max-width: 440px;
+  max-width: clamp(320px, 40vw, 440px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -737,6 +737,7 @@ a { color: inherit; text-decoration: none; }
 .signin-split-logo {
   display: flex;
   align-items: center;
+  margin-bottom: clamp(28px, 3.6vw, 50px);
 }
 
 /* MIDDLE section */
@@ -747,17 +748,23 @@ a { color: inherit; text-decoration: none; }
 .signin-split-eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  font-size: 10.5px;
+  gap: clamp(4px, 0.8vw, 7px);
+  font-size: clamp(8px, 1vw, 10.5px);
   font-weight: 700;
   letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: var(--orange);
-  margin-bottom: 20px;
+  color: #005F73;
+  margin-bottom: clamp(10px, 1.8vw, 20px);
+  border: 1px solid rgba(0, 95, 115, 0.35);
+  background: rgba(0, 95, 115, 0.07);
+  border-radius: 999px;
+  padding: 3px 8px;
+  align-self: flex-start;
+  width: fit-content;
 }
 .signin-split-eyebrow-dot {
-  width: 6px;
-  height: 6px;
+  width: clamp(4px, 0.5vw, 6px);
+  height: clamp(4px, 0.5vw, 6px);
   border-radius: 50%;
   background: var(--orange);
   opacity: 0.8;
@@ -767,49 +774,49 @@ a { color: inherit; text-decoration: none; }
   font-family: 'Instrument Serif', 'Times New Roman', serif;
   font-weight: 400;
   font-style: italic;
-  font-size: 46px;
+  font-size: clamp(28px, 4vw, 46px);
   letter-spacing: -0.02em;
   line-height: 1.12;
   color: var(--text);
   margin: 0;
 }
 .signin-split-sub {
-  margin: 20px 0 0;
-  font-size: 13.5px;
+  margin: clamp(10px, 1.8vw, 20px) 0 0;
+  font-size: clamp(11px, 1.2vw, 13.5px);
   line-height: 1.70;
   color: var(--text-muted);
   font-weight: 400;
-  max-width: 380px;
+  max-width: clamp(280px, 35vw, 380px);
 }
 
 /* Three horizontal feature cards */
 .signin-split-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-top: 32px;
+  gap: clamp(4px, 0.8vw, 8px);
+  margin-top: clamp(16px, 3vw, 32px);
 }
 .signin-split-card {
-  padding: 14px 14px 16px;
-  border-radius: 10px;
+  padding: clamp(8px, 1.2vw, 14px) clamp(8px, 1.2vw, 14px) clamp(10px, 1.4vw, 16px);
+  border-radius: clamp(6px, 1vw, 10px);
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.07);
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: clamp(4px, 0.6vw, 6px);
   transition: border-color 200ms ease;
 }
 .signin-split-card:hover {
   border-color: rgba(255, 255, 255, 0.12);
 }
 .signin-split-card-title {
-  font-size: 13px;
+  font-size: clamp(10px, 1.2vw, 13px);
   font-weight: 600;
   color: var(--text);
   letter-spacing: -0.01em;
 }
 .signin-split-card-sub {
-  font-size: 11px;
+  font-size: clamp(9px, 1vw, 11px);
   color: var(--text-dim);
   line-height: 1.45;
 }
@@ -818,12 +825,12 @@ a { color: inherit; text-decoration: none; }
 .signin-split-bottom {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding-top: 24px;
+  gap: clamp(6px, 1vw, 10px);
+  padding-top: clamp(16px, 2.2vw, 24px);
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 .signin-split-comply-label {
-  font-size: 10px;
+  font-size: clamp(8px, 0.9vw, 10px);
   font-weight: 700;
   letter-spacing: 0.10em;
   text-transform: uppercase;
@@ -832,12 +839,12 @@ a { color: inherit; text-decoration: none; }
 .signin-split-comply-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: clamp(4px, 0.6vw, 6px);
 }
 .signin-split-comply-tags span {
-  font-size: 11.5px;
+  font-size: clamp(9.5px, 1vw, 11.5px);
   color: var(--text-muted);
-  padding: 3px 10px;
+  padding: clamp(2px, 0.3vw, 3px) clamp(6px, 1vw, 10px);
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(255, 255, 255, 0.03);
@@ -850,13 +857,13 @@ a { color: inherit; text-decoration: none; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 56px;
+  padding: clamp(32px, 5vw, 60px) clamp(32px, 5vw, 56px);
 }
 .signin-split-right .signin-quiet-card {
   width: 100%;
 }
 .signin-split-right .signin-quiet-footer {
-  margin-top: 24px;
+  margin-top: clamp(16px, 2.2vw, 24px);
 }
 
 /* Mobile-only logo (hidden on desktop; left panel owns the logo) */
@@ -865,25 +872,27 @@ a { color: inherit; text-decoration: none; }
 /* Google sign-in button */
 .signin-google-btn {
   width: 100%;
-  height: 46px;
+  height: clamp(38px, 4.2vw, 46px);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: clamp(6px, 1vw, 10px);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.9);
   color: var(--text);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: clamp(12px, 1.3vw, 14px);
+  font-weight: 600;
   font-family: inherit;
   cursor: pointer;
-  transition: background 150ms ease, border-color 150ms ease;
+  transition: all 160ms ease;
   letter-spacing: -0.01em;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.6), 0 2px 6px rgba(0, 0, 0, 0.03);
 }
 .signin-google-btn:hover {
-  background: rgba(255, 255, 255, 0.09);
-  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.9);
+  border-color: #FFF;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.8), 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 .signin-google-btn:focus-visible {
   outline: none;
@@ -902,10 +911,10 @@ a { color: inherit; text-decoration: none; }
   content: '';
   flex: 1;
   height: 1px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(15, 30, 54, 0.10);
 }
 .signin-or-divider span {
-  font-size: 11px;
+  font-size: clamp(9px, 1vw, 11px);
   color: var(--text-dim);
   letter-spacing: 0.06em;
   text-transform: uppercase;

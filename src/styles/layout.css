@@ -16,7 +16,7 @@
 
 :root {
   /* === Canvas === */
-  --bg:           #0F0E0C;
+  --bg:           #E9F2F8;
   --bg-2:         #131210;
   --surface:      rgba(255, 255, 255, 0.045);
   --surface-2:    rgba(255, 255, 255, 0.08);
@@ -29,10 +29,10 @@
   --border-strong:rgba(255, 255, 255, 0.16);
 
   /* === Text === */
-  --text:         #F2EFE6;
-  --text-muted:   #9C988D;
-  --text-dim:     #6E6A62;
-  --text-faint:   #4B473F;
+  --text:         #1A3A52;
+  --text-muted:   #475569;
+  --text-dim:     #64748B;
+  --text-faint:   #94A3B8;
 
   /* === Primary accent — warm orange === */
   --orange:       #FD4B23;
@@ -398,8 +398,8 @@ body {
 .signin-quiet { background: var(--bg); }
 .signin-quiet::before {
   background:
-    radial-gradient(ellipse 70% 60% at 50% 50%, transparent 0%, rgba(0,0,0,0.30) 65%, rgba(0,0,0,0.70) 100%),
-    radial-gradient(800px 500px at 50% 100%, rgba(253, 75, 35, 0.10), transparent 60%);
+    radial-gradient(ellipse 70% 60% at 50% 50%, transparent 0%, rgba(0,0,0,0.12) 65%, rgba(0,0,0,0.38) 100%),
+    radial-gradient(800px 500px at 50% 100%, rgba(253, 75, 35, 0.07), transparent 60%);
 }
 
 .signin-quiet-card {
@@ -476,11 +476,19 @@ body {
 }
 
 .signin-quiet-form .btn-cream {
+  background: #0066CC;
+  border-color: #0066CC;
+  box-shadow: 0 8px 24px rgba(0, 102, 204, 0.3);
   height: 48px !important;
   font-size: 14px !important;
   font-weight: 700;
   border-radius: 999px;
   letter-spacing: -0.005em;
+}
+.signin-quiet-form .btn-cream:hover {
+  background: #005bb5;
+  border-color: #005bb5;
+  box-shadow: 0 12px 32px rgba(0, 102, 204, 0.4);
 }
 .signin-quiet-row { font-size: 13px; font-weight: 600; margin-top: 4px; }
 .signin-quiet-row a { color: var(--text-muted); }
@@ -978,7 +986,7 @@ body {
   --mint-l-edge: rgba(127, 209, 154, 0.30);
 
   min-height: 100vh;
-  background: #000;
+  background: var(--bg);
   color: #F5F2EA;
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
@@ -1141,7 +1149,7 @@ body {
   letter-spacing: -0.038em;
   font-weight: 700;
   margin: 0;
-  color: #FFFFFF;
+  color: var(--text);
 }
 .signin-split-headline .muted  { color: #6B6E78; }
 .signin-split-headline .accent { color: var(--amber-l); }
@@ -1302,7 +1310,7 @@ body {
 
 /* ---- Right column ---- */
 .signin-split-right {
-  background: #000;
+  background: var(--bg);
   display: flex;
   align-items: center;
   justify-content: center;

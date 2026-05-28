@@ -16,6 +16,8 @@ dist-ssr/
 *.local
 .vscode/settings.json
 .idea/
+.claude/
+*.log
 
 # Test coverage
 coverage/

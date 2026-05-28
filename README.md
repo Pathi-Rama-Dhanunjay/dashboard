@@ -48,7 +48,7 @@ git checkout version-1
 # Install dependencies
 npm install
 
-# Start dev server (http://localhost:3000)
+# Start dev server (http://localhost:3001)
 npm run dev
 ```
 

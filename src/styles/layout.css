@@ -404,14 +404,14 @@ body {
 
 .signin-quiet-card {
   max-width: 420px;
-  padding: 40px 36px 36px;
+  padding: 28px 36px 24px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 24px;
   backdrop-filter: blur(28px) saturate(140%);
   -webkit-backdrop-filter: blur(28px) saturate(140%);
   box-shadow: 0 40px 80px rgba(0, 0, 0, 0.55), 0 1px 0 rgba(255,255,255,0.06) inset;
-  gap: 24px;
+  gap: 16px;
 }
 .signin-quiet-title {
   font-size: 26px;
@@ -450,7 +450,7 @@ body {
   color: var(--text);
 }
 
-.signin-quiet-form { gap: 16px; }
+.signin-quiet-form { gap: 10px; }
 .field label {
   font-size: 11px;
   font-weight: 700;
@@ -459,20 +459,37 @@ body {
   color: var(--text-dim);
 }
 .field input, .field select, .field textarea {
-  height: 46px;
+  height: 40px;
   padding: 0 16px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.10);
   border-radius: 12px;
   font-size: 14px;
   font-weight: 500;
+  transition: all 0.18s ease-in-out;
+}
+.field input:hover,
+.field select:hover,
+.field textarea:hover {
+  border-color: rgba(15, 30, 54, 0.35);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 0 0 3px rgba(15, 30, 54, 0.06);
+  transition: all 0.18s ease-in-out;
 }
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
-  border-color: var(--orange);
+  /* A crisp, professional 1px border */
+  border-color: #2F4F4F;
   background: rgba(255, 255, 255, 0.07);
-  box-shadow: 0 0 0 4px var(--orange-soft);
+  outline: none;
+  /* Layered premium shadow: A tiny sharp inner ring + a very soft, faded outer glow */
+  box-shadow: 
+    0 0 0 1px #2F4F4F, 
+    0 0 0 4px rgba(47, 79, 79, 0.08), 
+    0 1px 2px rgba(0, 0, 0, 0.05);
+  /* Smooth transition makes the focus animation feel expensive */
+  transition: all 0.2s ease-in-out;
 }
 
 .signin-quiet-form .btn-cream {
@@ -1374,9 +1391,17 @@ body {
 }
 .signin-split-form .field input:hover { border-color: rgba(255,255,255,0.16); }
 .signin-split-form .field input:focus {
-  border-color: var(--blue);
+  /* A crisp, professional 1px border */
+  border-color: #2F4F4F;
   background: rgba(107,138,255,0.04);
-  box-shadow: 0 0 0 3px rgba(107,138,255,0.15);
+  outline: none;
+  /* Layered premium shadow: A tiny sharp inner ring + a very soft, faded outer glow */
+  box-shadow: 
+    0 0 0 1px #2F4F4F, 
+    0 0 0 4px rgba(47, 79, 79, 0.08), 
+    0 1px 2px rgba(0, 0, 0, 0.05);
+  /* Smooth transition makes the focus animation feel expensive */
+  transition: all 0.2s ease-in-out;
 }
 .signin-split-form .field input::placeholder { color: #4E5058; }
 

@@ -263,7 +263,7 @@ const SignIn = ({ onNavigate }) => {
                   value={email}
                   onChange={(e) => { setEmail(e.target.value); setAuthErr(''); }}
                   onBlur={() => setTouched(true)}
-                  placeholder="you@company.com"
+                  placeholder="Enter your mail"
                   autoComplete="username"
                   autoFocus />
               </div>
@@ -276,7 +276,7 @@ const SignIn = ({ onNavigate }) => {
                     type={showPw ? 'text' : 'password'}
                     value={password}
                     onChange={(e) => { setPassword(e.target.value); setAuthErr(''); }}
-                    placeholder=""
+                    placeholder="Enter the password"
                     autoComplete="current-password" />
                   <button
                     type="button"

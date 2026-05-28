@@ -16,7 +16,7 @@
 
 :root {
   /* === Canvas === */
-  --bg:           #E9F2F8;
+  --bg:           #F4F6F9;
   --bg-2:         #131210;
   --surface:      rgba(255, 255, 255, 0.045);
   --surface-2:    rgba(255, 255, 255, 0.08);
@@ -419,7 +419,7 @@ body {
   letter-spacing: -0.025em;
   font-family: 'Lato', sans-serif !important;
   font-style: normal !important;
-  color: var(--text);
+  color: #0F1E36;
 }
 .signin-quiet-title + p,
 .signin-subtle {
@@ -1149,7 +1149,7 @@ body {
   letter-spacing: -0.038em;
   font-weight: 700;
   margin: 0;
-  color: var(--text);
+  color: #0F1E36;
 }
 .signin-split-headline .muted  { color: #6B6E78; }
 .signin-split-headline .accent { color: var(--amber-l); }
@@ -1157,7 +1157,7 @@ body {
 .signin-split-sub {
   font-size: 15px;
   line-height: 1.6;
-  color: #9A9CA4;
+  color: #475569;
   margin: 0;
   max-width: 520px;
 }

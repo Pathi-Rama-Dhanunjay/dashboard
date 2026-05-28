@@ -17,21 +17,23 @@ import { readUser, logout as sessionLogout } from '../lib/session.ts';
 
 const Wordmark = ({ size }: { size: number }) => {
   return (
-    <span className="logo-word" style={{ fontSize: size, position: 'relative' }}>
+    <span className="logo-word" style={{ fontSize: size, position: 'relative', color: '#0F172A' }}>
       BiasSens<span style={{ position: 'relative', display: 'inline-block' }}>
         e
         <span
           style={{
             position: 'absolute',
             top: '-0.1em',
-            left: '85%',
-            transform: 'translateX(0)',
+            left: '100%',
+            transform: 'scaleX(0.95)',
+            transformOrigin: 'left center',
             fontSize: '0.52em',
             lineHeight: 1,
-            color: 'var(--text)',
+            color: '#0F172A',
             fontWeight: 700,
             letterSpacing: 0,
             whiteSpace: 'nowrap',
+            WebkitTextStroke: '1px currentColor',
           }}
         >→</span>
       </span>

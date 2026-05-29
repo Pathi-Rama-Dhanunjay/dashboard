@@ -194,17 +194,14 @@ const UserCard = ({ onNavigate }) => {
   );
 };
 
-const Sidebar = ({ active, onNavigate }) => {
+const Sidebar = ({ active, onNavigate, open, onToggle }: { active: string; onNavigate: (r: string) => void; open: boolean; onToggle: () => void }) => {
   const groups = {
     workspace: NAV_ITEMS.filter((n) => n.group === 'workspace'),
     insights: NAV_ITEMS.filter((n) => n.group === 'insights'),
     account: NAV_ITEMS.filter((n) => n.group === 'account')
   };
   return (
-    <aside className="sidebar">
-      <div className="sidebar-logo">
-        <Logo size={16} />
-      </div>
+    <aside className={`sidebar${open ? '' : ' sidebar-collapsed'}`}>
       <nav className="sidebar-nav">
         <div className="sidebar-section">Workspace</div>
         {groups.workspace.map((item) =>
@@ -384,8 +381,7 @@ const RunAnalysisModal = ({ open, onClose }) => {
 
 };
 
-const TopBar = ({ title, breadcrumb, onNavigate, hideActions = false, search = true }) => {
-  const [runOpen, setRunOpen] = React.useState(false);
+const TopBar = ({ title, breadcrumb, onNavigate, hideActions = false, search = true, sidebarOpen = true, onToggleSidebar }: { title?: string; breadcrumb?: any[]; onNavigate: (r: string) => void; hideActions?: boolean; search?: boolean; sidebarOpen?: boolean; onToggleSidebar?: () => void }) => {
   const [q, setQ] = React.useState('');
   const user = useCurrentUser();
   const searchRef = React.useRef<HTMLInputElement>(null);
@@ -404,10 +400,19 @@ const TopBar = ({ title, breadcrumb, onNavigate, hideActions = false, search = t
   return (
     <>
       <div className="topbar">
-        <div className="topbar-left">
-          {breadcrumb && breadcrumb.length > 0 &&
-          <div className="crumbs">
-              {breadcrumb.map((b, i) =>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <Logo size={24} />
+            {onToggleSidebar && (
+              <button className="sidebar-collapse-btn" onClick={onToggleSidebar} title="Toggle sidebar" style={{ marginLeft: 0 }}>
+                <Icon name={sidebarOpen ? 'chevron-left' : 'menu'} size={16} />
+              </button>
+            )}
+          </div>
+          <div className="topbar-left">
+            {breadcrumb && breadcrumb.length > 0 &&
+            <div className="crumbs">
+                {breadcrumb.map((b, i) =>
             <React.Fragment key={i}>
                   {i > 0 && <span style={{ color: 'var(--text-faint)' }}>/</span>}
                   {b.route ?
@@ -418,8 +423,8 @@ const TopBar = ({ title, breadcrumb, onNavigate, hideActions = false, search = t
                 </React.Fragment>
             )}
             </div>
-          }
-          <div className="topbar-title">{title}</div>
+            }
+          </div>
         </div>
         {search && !hideActions &&
           <div className="topbar-search">
@@ -439,29 +444,33 @@ const TopBar = ({ title, breadcrumb, onNavigate, hideActions = false, search = t
         }
         {!hideActions &&
         <div className="topbar-actions">
-            <button className="btn btn-cream" onClick={() => setRunOpen(true)}>
-              <Icon name="play" size={12} />
-              Run Analysis
-            </button>
-            <div style={{ width: 1, height: 22, background: 'var(--border-soft)', margin: '0 4px' }}></div>
             <NotifBell />
             <button className="avatar" title={user.name + ' — ' + user.role} style={{ cursor: 'pointer' }}>{user.initials}</button>
           </div>
         }
       </div>
-      <RunAnalysisModal open={runOpen} onClose={() => setRunOpen(false)} />
     </>);
 
 };
 
-const AppShell = ({ active, title, breadcrumb, onNavigate, children }) =>
-<div className="app-shell">
-    <Sidebar active={active} onNavigate={onNavigate} />
-    <div className="main">
-      <TopBar title={title} breadcrumb={breadcrumb} onNavigate={onNavigate} />
-      <div className="content">{children}</div>
+let globalSidebarOpen = true;
+
+const AppShell = ({ active, title, breadcrumb, onNavigate, children }) => {
+  const [sidebarOpen, setSidebarOpen] = React.useState(globalSidebarOpen);
+  const toggle = () => {
+    globalSidebarOpen = !sidebarOpen;
+    setSidebarOpen(globalSidebarOpen);
+  };
+  return (
+    <div className={`app-shell${sidebarOpen ? '' : ' sidebar-hidden'}`}>
+      <Sidebar active={active} onNavigate={onNavigate} open={sidebarOpen} onToggle={toggle} />
+      <div className={`main${sidebarOpen ? '' : ' sidebar-hidden'}`}>
+        <TopBar title={title} breadcrumb={breadcrumb} onNavigate={onNavigate} sidebarOpen={sidebarOpen} onToggleSidebar={toggle} />
+        <div className="content">{children}</div>
+      </div>
     </div>
-  </div>;
+  );
+};
 
 
 export { Logo, LogoLockup, Sidebar, TopBar, AppShell, NAV_ITEMS, ToastProvider, useToast, NotifBell, useCurrentUser };

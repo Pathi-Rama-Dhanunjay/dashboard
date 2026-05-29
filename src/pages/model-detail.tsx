@@ -113,6 +113,7 @@ const ModelDetail = ({ modelId, onNavigate }) => {
       ]}
     >
       <div data-screen-label="04 Model Detail" className="mount-up">
+        <div className="dash-page-label" style={{ marginBottom: 16 }}>Model detail</div>
         <div className="detail-head">
           <div className="model-icon"><Icon name={model.icon} size={22} /></div>
           <div style={{ flex: 1 }}>

@@ -44,6 +44,7 @@ const ModelsList = ({ onNavigate }) => {
       <div data-screen-label="03 Models">
         <div className="page-head mount-up">
           <div>
+            <div className="dash-page-label" style={{ marginBottom: 12 }}>Models</div>
             <h1>All <span className="ital">models</span>.</h1>
             <p className="sub">{MODELS.length} registered · {filtered.length} shown · Last sync 2 minutes ago</p>
           </div>

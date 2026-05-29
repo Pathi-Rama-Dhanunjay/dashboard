@@ -8,7 +8,7 @@ type IconName =
   | 'sparkles' | 'plus' | 'filter' | 'download' | 'eye' | 'eye-off'
   | 'clock' | 'cube' | 'database' | 'trending' | 'logout' | 'flag'
   | 'more-h' | 'mail' | 'user-plus' | 'users' | 'briefcase' | 'lock'
-  | 'chevron-down' | 'trash';
+  | 'chevron-down' | 'trash' | 'chevron-left' | 'menu' | 'eclipse';
 
 interface IconProps {
   name: IconName;
@@ -152,6 +152,18 @@ const Icon = ({ name, size = 16, className = '', strokeWidth = 1.75 }: IconProps
     );
     case 'trash': return (
       <svg {...v}><polyline points="3 6 5 6 21 6" {...p}/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" {...p}/></svg>
+    );
+    case 'chevron-left': return (
+      <svg {...v}><polyline points="15 6 9 12 15 18" {...p}/></svg>
+    );
+    case 'menu': return (
+      <svg {...v}><line x1="3" y1="6" x2="21" y2="6" {...p}/><line x1="3" y1="12" x2="21" y2="12" {...p}/><line x1="3" y1="18" x2="21" y2="18" {...p}/></svg>
+    );
+    case 'eclipse': return (
+      <svg {...v}>
+        <circle cx="9" cy="12" r="7" {...p}/>
+        <circle cx="15" cy="12" r="7" {...p}/>
+      </svg>
     );
     default: return <svg {...v}/>;
   }

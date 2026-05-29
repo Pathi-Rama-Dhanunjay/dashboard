@@ -34,7 +34,7 @@ const smoothPath = (pts: [number, number][]) => {
 };
 
 // ===== Gradient area line chart =====
-const GradientAreaChart = ({ data, height = 280, accent = '#FD4B23', secondary = '#FFCE76' }) => {
+const GradientAreaChart = ({ data, height = 280, accent = '#115E59', secondary = '#FFCE76' }) => {
   const uid = React.useId().replace(/:/g, '');
   const mounted = useMount();
   const wrapRef = React.useRef(null);
@@ -100,7 +100,7 @@ const GradientAreaChart = ({ data, height = 280, accent = '#FD4B23', secondary =
           </linearGradient>
           <linearGradient id={`${uid}-lineGrad`} x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stopColor={accent} />
-            <stop offset="100%" stopColor="#FF7B58" />
+            <stop offset="100%" stopColor="#0F766E" />
           </linearGradient>
         </defs>
 
@@ -190,7 +190,7 @@ const GradientAreaChart = ({ data, height = 280, accent = '#FD4B23', secondary =
 };
 
 // ===== Rounded bar chart =====
-const RoundedBarChart = ({ data, height = 280, accent = '#FD4B23' }) => {
+const RoundedBarChart = ({ data, height = 280, accent = '#115E59' }) => {
   const uid = React.useId().replace(/:/g, '');
   const mounted = useMount();
   const wrapRef = React.useRef(null);
@@ -226,7 +226,7 @@ const RoundedBarChart = ({ data, height = 280, accent = '#FD4B23' }) => {
       <svg viewBox={`0 0 ${w} ${height}`} preserveAspectRatio="none">
         <defs>
           <linearGradient id={`${uid}-barGrad`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#FF7B58" />
+            <stop offset="0%" stopColor="#0F766E" />
             <stop offset="100%" stopColor={accent} />
           </linearGradient>
           <linearGradient id={`${uid}-barGradDim`} x1="0" y1="0" x2="0" y2="1">
@@ -293,7 +293,7 @@ const RoundedBarChart = ({ data, height = 280, accent = '#FD4B23' }) => {
 };
 
 // ===== Sparkline (minimal) =====
-const SparkChart = ({ data, height = 280, accent = '#FD4B23' }) => {
+const SparkChart = ({ data, height = 280, accent = '#115E59' }) => {
   const uid = React.useId().replace(/:/g, '');
   const mounted = useMount();
   const wrapRef = React.useRef(null);

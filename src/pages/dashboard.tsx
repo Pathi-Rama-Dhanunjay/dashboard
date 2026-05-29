@@ -34,10 +34,11 @@ const Dashboard = ({ onNavigate }) => {
   const dateLine = today.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
 
   return (
-    <AppShell active="dashboard" title="Dashboard" onNavigate={onNavigate}>
+    <AppShell active="dashboard" onNavigate={onNavigate}>
       {/* 1 — Greeting header */}
       <header className="dash-greeting mount-up" style={{ animationDelay: '0ms' }}>
         <div>
+          <div className="dash-page-label">Dashboard</div>
           <h1 className="dash-greeting-title">Good morning, {firstName}.</h1>
           <div className="dash-greeting-sub">
             <span className="live-dot" style={{ background: 'var(--mint)' }}></span>
@@ -78,7 +79,7 @@ const Dashboard = ({ onNavigate }) => {
       {/* 3 — Trend chart + Composition donut */}
       <div className="dash-grid" style={{ marginBottom: 20 }}>
         <div className="col-8 mount-up" style={{ animationDelay: '420ms' }}>
-          <div className="card chart-card">
+          <div className="card chart-card flat-card">
             <div className="card-header" style={{ paddingBottom: 6 }}>
               <div>
                 <div className="card-title">Fairness trend</div>
@@ -107,7 +108,7 @@ const Dashboard = ({ onNavigate }) => {
               }}>
                 <Legend swatch={<span style={{
                   width: 14, height: 3, borderRadius: 2,
-                  background: 'linear-gradient(90deg, #FD4B23 0%, #FF7B58 100%)',
+                  background: 'linear-gradient(90deg, #115E59 0%, #0F766E 100%)',
                 }} />} label="Avg fairness score" value="92.4%" delta="+2.1" />
                 {chartStyle !== 'bars' && chartStyle !== 'spark' && (
                   <Legend swatch={<span style={{
@@ -121,7 +122,7 @@ const Dashboard = ({ onNavigate }) => {
         </div>
 
         <div className="col-4 mount-up" style={{ animationDelay: '500ms' }}>
-          <div className="card donut-card">
+          <div className="card donut-card flat-card">
             <div className="card-header">
               <div>
                 <div className="card-title">Fairness composition</div>
@@ -189,7 +190,7 @@ const Dashboard = ({ onNavigate }) => {
       {/* 5 — Datasets + Last analyses */}
       <div className="dash-grid">
         <div className="col-5 mount-up" style={{ animationDelay: '720ms' }}>
-          <div className="card">
+          <div className="card flat-card">
             <div className="card-header">
               <div>
                 <div className="card-title">Datasets</div>
@@ -219,7 +220,7 @@ const Dashboard = ({ onNavigate }) => {
         </div>
 
         <div className="col-7 mount-up" style={{ animationDelay: '800ms' }}>
-          <div className="card tbl-card">
+          <div className="card tbl-card flat-card">
             <div className="card-header">
               <div>
                 <div className="card-title">Last analyses</div>

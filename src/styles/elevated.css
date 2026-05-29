@@ -1,9 +1,8 @@
 /* Card-on-base overrides — deep canvas, elevated floating cards, no harsh dividers */
 
 /* Remove sidebar / topbar dividers */
-.sidebar { border-right: none !important; background: var(--bg) !important; }
-.sidebar-logo { border-bottom: none !important; }
-.topbar { border-bottom: none !important; background: var(--bg) !important; }
+.sidebar { border-right: none !important; background: #FFFFFF !important; }
+.topbar { border-bottom: none !important; background: #FFFFFF !important; }
 
 /* Make sure the app shell uses the deep canvas */
 .app-shell { background: var(--bg); }

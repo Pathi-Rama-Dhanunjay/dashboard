@@ -48,6 +48,10 @@ const Dashboard = ({ onNavigate }) => {
         <div className="dash-greeting-actions">
           <button className="btn btn-ghost">
             <Icon name="download" size={13} />
+            Import
+          </button>
+          <button className="btn btn-ghost">
+            <Icon name="upload" size={13} />
             Export
           </button>
           <button className="btn btn-cream">

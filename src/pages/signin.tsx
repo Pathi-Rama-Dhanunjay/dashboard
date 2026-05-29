@@ -164,7 +164,7 @@ const GoogleIcon = () => (
 const SignIn = ({ onNavigate }) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [touched, setTouched] = React.useState(false);
+
   const [loading, setLoading] = React.useState(false);
   const [authErr, setAuthErr] = React.useState('');
   const [showPw, setShowPw] = React.useState(false);
@@ -173,7 +173,6 @@ const SignIn = ({ onNavigate }) => {
 
   const submit = (e) => {
     e.preventDefault();
-    setTouched(true);
     setAuthErr('');
     if (!canSubmit) return;
     setLoading(true);
@@ -263,7 +262,6 @@ const SignIn = ({ onNavigate }) => {
                   type="text"
                   value={email}
                   onChange={(e) => { setEmail(e.target.value); setAuthErr(''); }}
-                  onBlur={() => setTouched(true)}
                   placeholder="Enter your mail"
                   autoComplete="username"
                   autoFocus />

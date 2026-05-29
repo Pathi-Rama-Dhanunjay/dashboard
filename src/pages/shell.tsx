@@ -153,7 +153,7 @@ const UserCard = ({ onNavigate }) => {
   const logout = () => {
     sessionLogout();
     setOpen(false);
-    onNavigate('/dashboard');
+    onNavigate('/signin');
   };
 
   return (
@@ -188,6 +188,264 @@ const UserCard = ({ onNavigate }) => {
             <Icon name="logout" size={14} />
             <span>Sign out</span>
           </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ===== Profile menu (topbar avatar) =====
+
+const SHORTCUTS = [
+  { keys: ['⌘', 'K'],      label: 'Open search'         },
+  { keys: ['⌘', 'N'],      label: 'New analysis run'    },
+  { keys: ['⌘', '/'],      label: 'Toggle sidebar'      },
+  { keys: ['⌘', 'D'],      label: 'Go to Dashboard'     },
+  { keys: ['⌘', 'M'],      label: 'Go to Models'        },
+  { keys: ['⌘', 'Shift', 'A'], label: 'Go to Analysis' },
+  { keys: ['Esc'],         label: 'Close modal / panel' },
+];
+
+const MenuSection = ({ label, children }) => (
+  <div style={{ marginBottom: 4 }}>
+    <div style={{
+      fontSize: 10.5, fontWeight: 700, color: 'var(--text-muted)',
+      textTransform: 'uppercase', letterSpacing: '0.07em',
+      padding: '10px 14px 4px',
+    }}>{label}</div>
+    {children}
+  </div>
+);
+
+const MenuItem = ({ icon, label, desc = '', badge = null, onClick, danger = false }: {
+  icon: any; label: string; desc?: string; badge?: React.ReactNode; onClick: () => void; danger?: boolean;
+}) => (
+  <button
+    className="user-menu-item"
+    onClick={onClick}
+    style={danger ? undefined : undefined}
+  >
+    <span style={{ color: danger ? 'var(--rose)' : 'var(--text-dim)', display: 'flex' }}>
+      <Icon name={icon} size={14} />
+    </span>
+    <span style={{ flex: 1, minWidth: 0 }}>
+      <span style={{ color: danger ? 'var(--rose)' : 'var(--text)', display: 'block', fontWeight: 600 }}>{label}</span>
+      {desc && <span style={{ color: 'var(--text-muted)', fontSize: 11, fontWeight: 500, display: 'block', marginTop: 1 }}>{desc}</span>}
+    </span>
+    {badge}
+  </button>
+);
+
+const ProfileMenu = ({ onNavigate }: { onNavigate: (r: string) => void }) => {
+  const user = useCurrentUser();
+  const toast = useToast();
+  const [open, setOpen]   = React.useState(false);
+  const [view, setView]   = React.useState<'main' | 'shortcuts'>('main');
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const onDown = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false); setView('main');
+      }
+    };
+    document.addEventListener('mousedown', onDown);
+    return () => document.removeEventListener('mousedown', onDown);
+  }, []);
+
+  const go = (route: string) => { setOpen(false); setView('main'); onNavigate(route); };
+  const close = () => { setOpen(false); setView('main'); };
+
+  const logout = () => {
+    sessionLogout(); close(); onNavigate('/signin');
+  };
+
+  const initials = user.initials ?? (user.name ?? 'U').split(' ').map((p: string) => p[0]).join('').slice(0, 2).toUpperCase();
+
+  return (
+    <div style={{ position: 'relative' }} ref={ref}>
+      {/* Avatar trigger */}
+      <button
+        className="avatar"
+        onClick={() => { setOpen(o => !o); setView('main'); }}
+        title={`${user.name} · ${user.role}`}
+        style={{
+          cursor: 'pointer',
+          outline: open ? '2px solid var(--cream)' : '2px solid transparent',
+          outlineOffset: 2,
+          transition: 'outline 120ms',
+        }}
+      >
+        {initials}
+      </button>
+
+      {/* Dropdown panel */}
+      {open && (
+        <div className="profile-pop">
+          {view === 'main' ? (
+            <>
+              {/* ── Profile header ── */}
+              <div style={{ padding: '16px 16px 12px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
+                  <div style={{
+                    width: 40, height: 40, borderRadius: 10,
+                    background: 'linear-gradient(135deg, #0f766e 0%, #0e7490 100%)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 15, fontWeight: 900, color: '#fff', flexShrink: 0,
+                  }}>{initials}</div>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontWeight: 800, fontSize: 14, color: 'var(--text)', lineHeight: 1.2 }}>{user.name}</div>
+                    <div style={{ fontSize: 11.5, color: 'var(--text-dim)', marginTop: 2, fontWeight: 500 }}>{user.role}</div>
+                  </div>
+                </div>
+                {/* Email + Plan row */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: 11.5, color: 'var(--text-muted)', fontWeight: 500 }}>
+                    dhanunjay.p@dataeqconsulting.com
+                  </span>
+                  <span style={{
+                    fontSize: 10, fontWeight: 800, padding: '2px 7px', borderRadius: 999,
+                    background: 'var(--cream-soft, rgba(255,206,118,0.15))',
+                    border: '1px solid rgba(255,206,118,0.25)',
+                    color: 'var(--cream, #FFCE76)', letterSpacing: '0.04em',
+                    textTransform: 'uppercase', flexShrink: 0, marginLeft: 8,
+                  }}>Pro</span>
+                </div>
+              </div>
+
+              {/* ── Workspace stats strip ── */}
+              <div style={{
+                display: 'flex', padding: '10px 16px',
+                borderBottom: '1px solid rgba(255,255,255,0.07)',
+                gap: 0,
+              }}>
+                {[
+                  { label: 'Models',   val: '12' },
+                  { label: 'Datasets', val: '8'  },
+                  { label: 'Runs',     val: '47' },
+                ].map((s, i, arr) => (
+                  <div key={s.label} style={{
+                    flex: 1, textAlign: 'center',
+                    borderRight: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.07)' : 'none',
+                    padding: '2px 0',
+                  }}>
+                    <div style={{ fontSize: 16, fontWeight: 900, color: 'var(--text)', letterSpacing: '-0.02em' }}>{s.val}</div>
+                    <div style={{ fontSize: 10.5, fontWeight: 600, color: 'var(--text-muted)', marginTop: 1 }}>{s.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* ── Account section ── */}
+              <MenuSection label="Account">
+                <MenuItem
+                  icon="user-plus"
+                  label="My profile"
+                  desc="Edit name, avatar, and bio"
+                  onClick={() => { close(); toast({ title: 'Profile editor', desc: 'Coming soon in v1.1', icon: 'sparkles' }); }}
+                />
+                <MenuItem
+                  icon="settings"
+                  label="Preferences"
+                  desc="Theme, density, notifications"
+                  onClick={() => { close(); toast({ title: 'Preferences', desc: 'Coming soon in v1.1', icon: 'sparkles' }); }}
+                />
+              </MenuSection>
+
+              <div className="user-menu-sep" />
+
+              {/* ── Workspace section ── */}
+              <MenuSection label="Workspace">
+                <MenuItem icon="briefcase"  label="Workspace settings" onClick={() => go('/settings/team')} />
+                <MenuItem icon="users"      label="Team members"        onClick={() => go('/settings/team')} />
+                <MenuItem icon="audit"      label="Audit log"           onClick={() => go('/audit')} />
+              </MenuSection>
+
+              <div className="user-menu-sep" />
+
+              {/* ── Help section ── */}
+              <MenuSection label="Help">
+                <MenuItem
+                  icon="info"
+                  label="Keyboard shortcuts"
+                  badge={<Icon name="chevron-right" size={12} />}
+                  onClick={() => setView('shortcuts')}
+                />
+                <MenuItem
+                  icon="sparkles"
+                  label="What's new"
+                  badge={
+                    <span style={{
+                      fontSize: 9.5, fontWeight: 800, padding: '1px 6px', borderRadius: 999,
+                      background: 'rgba(20,184,166,0.18)', color: 'var(--mint)',
+                      border: '1px solid rgba(20,184,166,0.25)', letterSpacing: '0.03em',
+                    }}>NEW</span>
+                  }
+                  onClick={() => { close(); toast({ title: "What's new in v1.0", desc: 'Analysis page, Datasets view, model health trends', icon: 'sparkles' }); }}
+                />
+                <MenuItem
+                  icon="flag"
+                  label="Help & docs"
+                  onClick={() => { close(); toast({ title: 'Documentation', desc: 'Opening docs.biassense.io…', icon: 'flag' }); }}
+                />
+              </MenuSection>
+
+              <div className="user-menu-sep" />
+
+              {/* ── Sign out ── */}
+              <div style={{ padding: '6px 6px 8px' }}>
+                <button
+                  className="user-menu-item danger"
+                  onClick={logout}
+                  style={{ width: '100%', borderRadius: 8 }}
+                >
+                  <span style={{ color: 'var(--rose)', display: 'flex' }}><Icon name="logout" size={14} /></span>
+                  <span style={{ color: 'var(--rose)', fontWeight: 600 }}>Sign out</span>
+                </button>
+              </div>
+            </>
+          ) : (
+            /* ── Keyboard shortcuts panel ── */
+            <>
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 10, padding: '13px 14px 11px',
+                borderBottom: '1px solid rgba(255,255,255,0.07)',
+              }}>
+                <button
+                  onClick={() => setView('main')}
+                  style={{
+                    background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.09)',
+                    borderRadius: 7, width: 26, height: 26, display: 'flex', alignItems: 'center',
+                    justifyContent: 'center', cursor: 'pointer', flexShrink: 0, color: 'var(--text-dim)',
+                  }}
+                >
+                  <Icon name="chevron-left" size={13} />
+                </button>
+                <div style={{ fontWeight: 800, fontSize: 13.5, color: 'var(--text)' }}>Keyboard shortcuts</div>
+              </div>
+              <div style={{ padding: '8px 0 10px' }}>
+                {SHORTCUTS.map(s => (
+                  <div key={s.label} style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '7px 16px', gap: 8,
+                  }}>
+                    <span style={{ fontSize: 12.5, color: 'var(--text-muted)', fontWeight: 500 }}>{s.label}</span>
+                    <div style={{ display: 'flex', gap: 3, flexShrink: 0 }}>
+                      {s.keys.map(k => (
+                        <kbd key={k} style={{
+                          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                          minWidth: 22, height: 20, padding: '0 5px', borderRadius: 5,
+                          background: 'rgba(255,255,255,0.08)',
+                          border: '1px solid rgba(255,255,255,0.12)',
+                          fontSize: 11, fontWeight: 700, color: 'var(--text-dim)',
+                          fontFamily: 'inherit',
+                        }}>{k}</kbd>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       )}
     </div>
@@ -383,7 +641,6 @@ const RunAnalysisModal = ({ open, onClose }) => {
 
 const TopBar = ({ title, breadcrumb, onNavigate, hideActions = false, search = true, sidebarOpen = true, onToggleSidebar }: { title?: string; breadcrumb?: any[]; onNavigate: (r: string) => void; hideActions?: boolean; search?: boolean; sidebarOpen?: boolean; onToggleSidebar?: () => void }) => {
   const [q, setQ] = React.useState('');
-  const user = useCurrentUser();
   const searchRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
@@ -445,7 +702,7 @@ const TopBar = ({ title, breadcrumb, onNavigate, hideActions = false, search = t
         {!hideActions &&
         <div className="topbar-actions">
             <NotifBell />
-            <button className="avatar" title={user.name + ' — ' + user.role} style={{ cursor: 'pointer' }}>{user.initials}</button>
+            <ProfileMenu onNavigate={onNavigate} />
           </div>
         }
       </div>

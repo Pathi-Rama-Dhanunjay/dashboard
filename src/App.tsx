@@ -6,9 +6,15 @@ import { TeamSettings } from './pages/settings-team.tsx';
 import { Dashboard } from './pages/dashboard.tsx';
 import { ModelsList } from './pages/models.tsx';
 import { ModelDetail } from './pages/model-detail.tsx';
+import { DatasetsList } from './pages/datasets.tsx';
+import { AnalysisList } from './pages/analysis.tsx';
+import { AlertsPage } from './pages/alerts.tsx';
+import { DeepDive } from './pages/deepdive.tsx';
+import { AuditLog } from './pages/audit.tsx';
 import { AppShell, ToastProvider, NAV_ITEMS } from './pages/shell.tsx';
 import { Icon } from './components/icons.tsx';
 import { TweaksPanel, TweakSection, TweakRadio, useTweaks } from './components/tweaks-panel.tsx';
+import { readUser } from './lib/session.ts';
 
 // Hash router + app root + tweaks
 
@@ -74,9 +80,13 @@ const App = () => {
   };
 
   const path = route;
+  const isAuthenticated = readUser() !== null;
+  const isPublicPath = path === '/signin' || path === '/' || path === '' || path === '/onboarding' || path.startsWith('/invite/');
 
   let view;
-  if (path === '/signin' || path === '/' || path === '') {
+  if (!isAuthenticated && !isPublicPath) {
+    view = <SignIn onNavigate={onNavigate} />;
+  } else if (path === '/signin' || path === '/' || path === '') {
     view = <SignIn onNavigate={onNavigate} />;
   } else if (path === '/onboarding') {
     view = <Onboarding onNavigate={onNavigate} />;
@@ -89,6 +99,16 @@ const App = () => {
     }
   } else if (path === '/settings/team') {
     view = <TeamSettings onNavigate={onNavigate} />;
+  } else if (path === '/datasets') {
+    view = <DatasetsList onNavigate={onNavigate} />;
+  } else if (path === '/analysis') {
+    view = <AnalysisList onNavigate={onNavigate} />;
+  } else if (path === '/alerts') {
+    view = <AlertsPage onNavigate={onNavigate} />;
+  } else if (path === '/deep-dive') {
+    view = <DeepDive onNavigate={onNavigate} />;
+  } else if (path === '/audit') {
+    view = <AuditLog onNavigate={onNavigate} />;
   } else if (path === '/dashboard') {
     view = <Dashboard onNavigate={onNavigate} />;
   } else if (path === '/models') {

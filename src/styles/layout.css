@@ -116,8 +116,10 @@ body {
 .glass,
 .card,
 .user-card,
+.user-menu,
 .upload-list,
 .notif-pop,
+.profile-pop,
 .modal {
   background: rgba(255, 255, 255, 0.045);
   border: 1px solid rgba(255, 255, 255, 0.16);
@@ -610,8 +612,10 @@ body {
   }
   .card,
   .user-card,
+  .user-menu,
   .upload-list,
   .notif-pop,
+      .profile-pop,
   .modal {
     border-color: rgba(0, 0, 0, 0.14) !important;
   }

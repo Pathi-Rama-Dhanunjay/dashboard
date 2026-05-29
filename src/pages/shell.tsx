@@ -20,7 +20,7 @@ const Wordmark = ({ size }: { size: number | string }) => {
     <span className="logo-word" style={{ fontSize: size, position: 'relative', color: '#0F172A' }}>
       BiasSens<span style={{ position: 'relative', display: 'inline-block' }}>
         e
-        <span
+        {/* <span
           style={{
             position: 'absolute',
             top: '-0.1em',
@@ -35,7 +35,7 @@ const Wordmark = ({ size }: { size: number | string }) => {
             whiteSpace: 'nowrap',
             WebkitTextStroke: '1.8px currentColor',
           }}
-        >→</span>
+        >→</span> */}
       </span>
     </span>
   );

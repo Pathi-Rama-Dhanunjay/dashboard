@@ -251,7 +251,7 @@ const SignIn = ({ onNavigate }) => {
             </div>
 
             <div>
-              <h2 className="signin-quiet-title">Authenticate</h2>
+              <h2 className="signin-quiet-title">Sign In</h2>
               <p className="signin-subtle" style={{ marginTop: 8 }}>Welcome back. Use your workspace credentials.</p>
             </div>
 
@@ -299,7 +299,7 @@ const SignIn = ({ onNavigate }) => {
               <button
                 type="submit"
                 className="btn btn-cream"
-                style={{ width: '100%', height: 42, marginTop: 4, fontSize: 13.5 }}
+                style={{ width: '40%', height: 36, margin: '16px auto 0', fontSize: 12.5 }}
                 disabled={loading}>
                 {loading ? 'Authenticating…' : 'Authenticate'}
               </button>

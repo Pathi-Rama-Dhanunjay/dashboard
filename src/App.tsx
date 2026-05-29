@@ -11,6 +11,7 @@ import { AnalysisList } from './pages/analysis.tsx';
 import { AlertsPage } from './pages/alerts.tsx';
 import { DeepDive } from './pages/deepdive.tsx';
 import { AuditLog } from './pages/audit.tsx';
+import { HelpPage } from './pages/help.tsx';
 import { AppShell, ToastProvider, NAV_ITEMS } from './pages/shell.tsx';
 import { Icon } from './components/icons.tsx';
 import { TweaksPanel, TweakSection, TweakRadio, useTweaks } from './components/tweaks-panel.tsx';
@@ -109,6 +110,8 @@ const App = () => {
     view = <DeepDive onNavigate={onNavigate} />;
   } else if (path === '/audit') {
     view = <AuditLog onNavigate={onNavigate} />;
+  } else if (path === '/help') {
+    view = <HelpPage onNavigate={onNavigate} />;
   } else if (path === '/dashboard') {
     view = <Dashboard onNavigate={onNavigate} />;
   } else if (path === '/models') {

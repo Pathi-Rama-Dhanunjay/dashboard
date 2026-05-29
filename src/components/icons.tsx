@@ -8,7 +8,7 @@ type IconName =
   | 'sparkles' | 'plus' | 'filter' | 'download' | 'eye' | 'eye-off'
   | 'clock' | 'cube' | 'database' | 'trending' | 'logout' | 'flag'
   | 'more-h' | 'mail' | 'user-plus' | 'users' | 'briefcase' | 'lock'
-  | 'chevron-down' | 'trash' | 'chevron-left' | 'menu' | 'eclipse';
+  | 'chevron-down' | 'trash' | 'chevron-left' | 'menu' | 'eclipse' | 'help';
 
 interface IconProps {
   name: IconName;
@@ -164,6 +164,9 @@ const Icon = ({ name, size = 16, className = '', strokeWidth = 1.75 }: IconProps
         <circle cx="9" cy="12" r="7" {...p}/>
         <circle cx="15" cy="12" r="7" {...p}/>
       </svg>
+    );
+    case 'help': return (
+      <svg {...v}><circle cx="12" cy="12" r="9" {...p}/><path d="M9.5 9.5a2.8 2.8 0 0 1 5.4.9c0 1.9-2.9 2.8-2.9 2.8" {...p}/><line x1="12" y1="17" x2="12.01" y2="17" {...p}/></svg>
     );
     default: return <svg {...v}/>;
   }

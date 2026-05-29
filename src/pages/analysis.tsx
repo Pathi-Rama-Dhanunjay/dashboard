@@ -99,7 +99,7 @@ const AnalysisList = ({ onNavigate }: { onNavigate: (r: string) => void }) => {
       <div className="page-head mount-up">
         <div>
           <div className="dash-page-label" style={{ marginBottom: 12 }}>Analysis</div>
-          <h1>Fairness <span className="ital">runs</span>.</h1>
+          <h1>Fairness <span className="ital">Runs</span>.</h1>
           <p className="sub">
             {RUNS.length} total runs · {counts.passed} passed · {counts.failed} failed · last run 14m ago
           </p>

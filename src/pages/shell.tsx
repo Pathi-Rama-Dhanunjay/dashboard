@@ -121,7 +121,8 @@ const NAV_ITEMS = [
 { id: 'deepdive', label: 'Deep Dive', icon: 'deepdive', route: '/deep-dive', group: 'insights' },
 { id: 'audit', label: 'Audit', icon: 'audit', route: '/audit', group: 'insights' },
 { id: 'alerts', label: 'Alerts', icon: 'alerts', route: '/alerts', group: 'insights', alertCount: 2 },
-{ id: 'settings', label: 'Settings', icon: 'settings', route: '/settings/team', group: 'account' }];
+{ id: 'settings', label: 'Settings', icon: 'settings', route: '/settings/team', group: 'account' },
+{ id: 'help', label: 'Help & Docs', icon: 'help', route: '/help', group: 'account' }];
 
 
 const DEFAULT_USER = { name: 'Sarah Kim', role: 'ML Platform · Lead', initials: 'SK' };
@@ -702,6 +703,14 @@ const TopBar = ({ title, breadcrumb, onNavigate, hideActions = false, search = t
         {!hideActions &&
         <div className="topbar-actions">
             <NotifBell />
+            <button
+              className="btn-icon"
+              title="Help & Docs"
+              onClick={() => onNavigate('/help')}
+              style={{ width: 34, height: 34, borderRadius: 999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            >
+              <Icon name="help" size={16} />
+            </button>
             <ProfileMenu onNavigate={onNavigate} />
           </div>
         }

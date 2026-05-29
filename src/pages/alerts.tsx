@@ -154,7 +154,7 @@ const AlertsPage = ({ onNavigate }) => {
       <div className="page-head mount-up">
         <div>
           <div className="dash-page-label" style={{ marginBottom: 12 }}>Alerts</div>
-          <h1>Active <span className="ital">alerts</span>.</h1>
+          <h1>Active <span className="ital">Alerts</span>.</h1>
           <p className="sub">
             2 critical · 3 warning · 0 info · last triggered 12 min ago
           </p>

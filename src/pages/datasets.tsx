@@ -155,7 +155,7 @@ const DatasetsList = ({ onNavigate }: { onNavigate: (r: string) => void }) => {
       <div className="page-head mount-up">
         <div>
           <div className="dash-page-label" style={{ marginBottom: 12 }}>Datasets</div>
-          <h1>All <span className="ital">datasets</span>.</h1>
+          <h1>All <span className="ital">Datasets</span>.</h1>
           <p className="sub">
             {DATASETS.length} registered · {filtered.length} shown · {totalRows.toLocaleString()} rows total
           </p>

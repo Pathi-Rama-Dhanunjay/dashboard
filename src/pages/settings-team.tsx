@@ -76,7 +76,7 @@ const TeamSettings = ({ onNavigate }) => {
         <div className="page-head mount-up">
           <div>
             <div className="dash-page-label" style={{ marginBottom: 12 }}>Settings</div>
-            <h1>Your <span className="ital">team</span>.</h1>
+            <h1>Your <span className="ital">Team</span>.</h1>
             <p className="sub">
               {stats.total} members · {stats.active} active · {stats.pending} pending
             </p>

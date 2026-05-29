@@ -116,7 +116,7 @@ const DeepDive = ({ onNavigate }: { onNavigate: (r: string) => void }) => {
       <div className="page-head mount-up">
         <div>
           <div className="dash-page-label" style={{ marginBottom: 12 }}>Deep Dive</div>
-          <h1>Explore <span className="ital">bias</span>.</h1>
+          <h1>Explore <span className="ital">Bias</span>.</h1>
           <p className="sub">Drill into cohort-level patterns, feature correlations, and counterfactuals</p>
         </div>
         <div className="page-head-actions">

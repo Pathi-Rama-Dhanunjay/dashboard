@@ -266,7 +266,7 @@ const AuditLog = ({ onNavigate }: { onNavigate: (r: string) => void }) => {
       <div className="page-head mount-up" style={{ animationDelay: '0ms' }}>
         <div>
           <div className="dash-page-label">Audit</div>
-          <h1>Compliance <span className="ital">trail</span>.</h1>
+          <h1>Compliance <span className="ital">Trail</span>.</h1>
           <p className="sub">Full audit log · regulatory compliance status · 4 frameworks monitored</p>
         </div>
         <div className="page-head-actions">

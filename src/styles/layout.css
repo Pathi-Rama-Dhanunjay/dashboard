@@ -542,10 +542,49 @@ body {
 .dash-grid { gap: 20px; }
 
 .flat-card {
-  background: transparent !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  background: rgba(255, 255, 255, 0.25) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-top-color: rgba(255, 255, 255, 0.8) !important;
+  border-left-color: rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05), inset 0 0 12px rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+}
+
+.glossy-card {
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-top-color: rgba(255, 255, 255, 0.8);
+  border-left-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05), inset 0 0 12px rgba(255, 255, 255, 0.2);
+  transition: all 200ms ease;
+}
+.glossy-card:hover {
+  background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08), inset 0 0 16px rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Universal glossy for dashboard components */
+.dash-glossy {
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-top-color: rgba(255, 255, 255, 0.8) !important;
+  border-left-color: rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), inset 0 0 12px rgba(255, 255, 255, 0.2) !important;
+  transition: all 200ms ease;
+}
+.dash-glossy:hover {
+  border-color: rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), inset 0 0 16px rgba(255, 255, 255, 0.4) !important;
+  transform: translateY(-1px);
+}
+.dash-glossy-bg {
+  background: rgba(255, 255, 255, 0.25) !important;
 }
 
 /* Greeting header */
@@ -592,24 +631,13 @@ body {
 .kpi-strip {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 16px;
 }
-@media (max-width: 1280px) {
-  .kpi-strip { grid-template-columns: repeat(3, 1fr); }
-}
-@media (max-width: 880px) {
-  .kpi-strip { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 900px) {
+  .kpi-strip { grid-template-columns: repeat(5, 1fr); gap: 6px; }
 }
 @media (prefers-color-scheme: light) {
-  .kpi-tile {
-    background: rgba(0, 0, 0, 0.03);
-    border-color: rgba(0, 0, 0, 0.14) !important;
-  }
-  .kpi-tile:hover {
-    background: rgba(0, 0, 0, 0.05);
-    border-color: rgba(0, 0, 0, 0.22) !important;
-  }
   .card,
   .user-card,
   .user-menu,
@@ -621,25 +649,32 @@ body {
   }
 }
 .kpi-tile {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-top-color: rgba(255, 255, 255, 0.8);
+  border-left-color: rgba(255, 255, 255, 0.6);
   border-radius: 20px;
   padding: 20px 22px;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   position: relative;
   overflow: hidden;
-  transition: all 200ms ease;
+  transition: all 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05), inset 0 0 12px rgba(255, 255, 255, 0.2);
 }
 .kpi-tile:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.26);
-  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08), inset 0 0 16px rgba(255, 255, 255, 0.4);
 }
+/* Rich variant — padding is managed inline (accent bar at very top) */
+.kpi-tile.kpi-tile-rich { padding: 0; }
+.kpi-tile.kpi-tile-rich:hover { transform: translateY(-3px); }
 .kpi-tile-label {
-  font-size: 12px;
-  color: var(--text-muted);
-  font-weight: 500;
+  font-size: 11.5px;
+  color: var(--text-dim);
+  font-weight: 600;
   letter-spacing: -0.005em;
 }
 .kpi-tile-value {
@@ -652,22 +687,22 @@ body {
   margin-top: 8px;
   display: flex;
   align-items: baseline;
-  gap: 6px;
+  gap: 4px;
 }
-.kpi-tile-value .unit { font-size: 18px; font-weight: 700; color: var(--text-muted); letter-spacing: -0.02em; }
+.kpi-tile-value .unit { font-size: 17px; font-weight: 700; color: var(--text-muted); letter-spacing: -0.02em; }
 .kpi-tile-delta {
   display: inline-flex;
   align-items: center;
   gap: 4px;
   margin-top: 10px;
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 700;
-  padding: 4px 10px;
+  padding: 3px 9px;
   border-radius: 999px;
 }
-.kpi-tile-delta.up   { color: var(--mint);  background: var(--mint-soft);  border: 1px solid var(--mint-edge); }
-.kpi-tile-delta.down { color: var(--rose);  background: var(--rose-soft);  border: 1px solid var(--rose-edge); }
-.kpi-tile-delta.flat { color: var(--text-muted); background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.10); }
+.kpi-tile-delta.up   { color: #2d8c52; background: rgba(116,194,140,0.12); border: 1px solid rgba(116,194,140,0.28); }
+.kpi-tile-delta.down { color: #c84f35; background: rgba(221,107,82,0.12);  border: 1px solid rgba(221,107,82,0.28); }
+.kpi-tile-delta.flat { color: var(--text-muted); background: rgba(15,30,54,0.05); border: 1px solid rgba(15,30,54,0.10); }
 .kpi-tile-spark { margin-top: 14px; opacity: 0.9; }
 
 /* Hero workspace card */
